@@ -6,7 +6,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../services/security/auth.service';
 import { UserService } from '../services/user/user.service';
@@ -19,6 +19,9 @@ import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { MainComponent } from './main/main.component';
+import { AircraftComponent } from './aircraft/aircraft.component';
+import { FlightpathComponent } from './flightpath/flightpath.component';
+import { WeatherComponent } from './weather/weather.component';
 
 @NgModule({
   declarations: [
@@ -26,13 +29,17 @@ import { MainComponent } from './main/main.component';
     LoginComponent,
     RegisterComponent,
     UserComponent,
-    MainComponent
+    MainComponent,
+    AircraftComponent,
+    FlightpathComponent,
+    WeatherComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule, MatCheckboxModule, MatMenuModule, MatButtonToggleModule, MatTabsModule, MatFormFieldModule,
     ReactiveFormsModule,
+    FormsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: false }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features

@@ -12,6 +12,7 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   errorMessage: string = '';
+  model: any = {};
 
   constructor(
     public authService: AuthService,
