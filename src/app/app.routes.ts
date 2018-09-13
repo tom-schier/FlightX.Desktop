@@ -11,12 +11,15 @@ import { WeatherComponent } from './weather/weather.component';
 import { FlightpathComponent } from './flightpath/flightpath.component';
 
 export const rootRouterConfig: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
-  { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
-  { path: 'main', component: MainComponent,  resolve: { data: UserResolver}},
-  { path: 'aircraft', outlet: "section1", component: AircraftComponent,  resolve: { data: UserResolver}},
-  { path: 'flightpath', outlet: "section1", component: FlightpathComponent,  resolve: { data: UserResolver}},
-  { path: 'weather', outlet: "section1", component: WeatherComponent,  resolve: { data: UserResolver}}
- // { path: 'user', component: UserComponent,  resolve: { data: UserResolver}}
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
+    { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
+    {
+        path: 'main', component: MainComponent, resolve: { data: UserResolver }, children: [
+            { path: '', component: AircraftComponent,  },
+            { path: 'aircraft', component: AircraftComponent,  },
+            { path: 'flightpath', component: FlightpathComponent,  },
+            { path: 'weather', component: WeatherComponent,  }]
+    }
+    // { path: 'user', component: UserComponent,  resolve: { data: UserResolver}}
 ];
