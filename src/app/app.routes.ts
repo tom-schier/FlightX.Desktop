@@ -9,6 +9,8 @@ import { MainComponent } from './main/main.component';
 import { AircraftComponent } from './aircraft/aircraft.component';
 import { WeatherComponent } from './weather/weather.component';
 import { FlightpathComponent } from './flightpath/flightpath.component';
+import { MapcontainerComponent } from './mapcontainer/mapcontainer.component';
+import { AircraftDetailsComponent } from './aircraft/aircraft-detail.component';
 
 export const rootRouterConfig: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,8 +18,8 @@ export const rootRouterConfig: Routes = [
     { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
     {
         path: 'main', component: MainComponent, resolve: { data: UserResolver }, children: [
-            { path: '', component: AircraftComponent,  },
-            { path: 'aircraft', component: AircraftComponent,  },
+            { path: '', component: AircraftDetailsComponent,  },
+            { path: 'aircraft', component: AircraftDetailsComponent,  },
             { path: 'flightpath', component: FlightpathComponent,  },
             { path: 'weather', component: WeatherComponent,  }]
     }

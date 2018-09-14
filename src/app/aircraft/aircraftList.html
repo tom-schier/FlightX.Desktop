@@ -1,0 +1,10 @@
+﻿<div>
+	<ul class="list-group">
+		<li class="list-group-item list-group-item-heading">
+			<a>Available Types:</a>
+		</li>
+		<li *ngFor="let ac of _acList" (click)="onSelect(ac)" class="list-group-item">
+			<a>{{ac.name}}</a>
+		</li>
+	</ul>
+</div>

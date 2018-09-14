@@ -1,0 +1,9 @@
+﻿
+<h4>Aircraft Speeds</h4>
+<div *ngIf="selectedAircraft != null">
+    <ul class="list-group">
+        <li *ngFor="let speed of selectedAircraft.acSpeeds" class="list-group-item">
+            <span class="badge">{{speed.name}}</span> {{speed.val}}
+        </li>
+    </ul>
+</div>

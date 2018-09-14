@@ -1,0 +1,9 @@
+﻿
+<h4>Aircraft Weights</h4>
+<div *ngIf="selectedAircraft != null">
+    <ul class="list-group">
+        <li *ngFor="let weight of selectedAircraft.acWeights" class="list-group-item">
+            <span class="badge">{{weight.name}}</span> {{weight.val}}
+        </li>
+    </ul>
+</div>

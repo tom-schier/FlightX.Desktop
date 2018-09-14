@@ -1,0 +1,59 @@
+<div>
+    <h1>Data Entry Form</h1>
+    <form class="row form" [formGroup]="windForm" novalidate (ngSubmit)="onAdd()">        
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="Callsign">Callsign: VH-</label>
+                    <input name="Callsign"
+                    formControlName="Callsign"
+                    [formControl]="acForm.controls['Callsign']"/>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="acType">Type:</label>
+                    <input name="acType"
+                    formControlName="acType"
+                    [formControl]="acForm.controls['acType']"/>/>
+                </div>        
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-2">
+                    <label for="Description">Description:</label>
+                </div>
+                <div class="form-group col-sm-10">
+                    <textarea name="Description"
+                    formControlName="Description"
+                    [formControl]="acForm.controls['descr']"></textarea>
+                </div>                
+            </div>
+            <div class="row">
+            <div id="theButton" class="form-group">
+                                    <button type="submit" class="form-control btn btn-success">Add
+                    </button>
+            </div>                
+            </div>
+            <!--<div class="row">
+                <div>
+                    <h2>Enter Speed Component</h2>
+                        <div>
+                            <span>V-Speed:<input type="text" value="{{selWindComp.windspeed}}" readonly="readonly" style="color: red"/></span>
+                            <span>Value:<input type="text" value="{{selWindComp.direction}}" readonly="readonly" style="color: red" /></span>
+                        </div>
+                    <div>
+                        <ul id="windData">
+                            <li *ngFor="let sp of acSpeeds; let i=index" (click)="onSelect(i)">
+                                <div>
+                                    <span><input class="idxWndDir" [(ngModel)]="sp.name" [readonly]="sp.isReadOnly"  type="text" value="{{sp.name}" style="background-color :lightgray"/>
+                                        <input class="idxWndSpeed" [(ngModel)]="sp.value"  [readonly]="sp.isReadOnly" type="text"  value="{{sp.value}}" style="background-color :lightgray"/>
+                                        <button class="idRemoveBtn" (click)="onRemove(i)" style="width: 60px">Remove</button>
+                                        <button class="idEditBtn" (click)="onEdit(i)" style="width: 60px">Edit</button>
+                                    </span>  
+                                </div>            
+                            </li>
+                        </ul>
+                    </div>
+                </div>               
+            </div>-->
+        </div>
+    </form>
+</div>

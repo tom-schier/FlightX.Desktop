@@ -2,3 +2,7 @@
     display: inline-block;
     margin: 16px;
   }
+
+  agm-map {
+    height: 300px;
+  }

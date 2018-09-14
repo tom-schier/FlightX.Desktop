@@ -1,0 +1,34 @@
+﻿
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2">
+                <div id="ac-list">
+                    <ac-list>
+                    </ac-list>
+                </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <h3>{{selectedAircraft.name}}</h3>   
+            <img src="{{selectedAircraft.imageUrl}}" />
+            
+            <div>
+                <br>
+                This application demonstrates the core concept of Angular2 when developing a SPA application. It uses Http backend service, router, forms and form validation, various directives, integrates with google maps, etc.
+                    For styling standard bootstrap and some font-awesome. <br><br>
+                The "Aircraft Details" (this one) tab is where an appropriate aircraft is selected. <br>
+                The "Flight Path" is for the slection of waypoints.<br>
+                The "Weather Details" tab is where the wind information is entered.<br>
+                The "Plan Details" tab diaplays the resulting flight plan.
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="row" >
+                <ac-speeds [selectedAircraft]="selectedAircraft"></ac-speeds>
+            </div>
+            <div class="row" >
+                <ac-weights [selectedAircraft]="selectedAircraft"></ac-weights>
+            </div>
+        </div>
+    </div>
+</div>
