@@ -5,7 +5,7 @@ import {AircraftSpeedsComponent} from './aircraft-speeds.component';
 import {AircraftWeightsComponent} from './aircraft-weights.component';
 import {AircraftService}  from '../../services/aircraft/aircraft.service';
 import { Router} from '@angular/router';
-import {Aircraft, AircraftBrief} from '../models/aircraft';
+import {Aircraft, AircraftBrief} from '../models/aircraft.model';
 
 @Component({
     selector: 'ac-list',

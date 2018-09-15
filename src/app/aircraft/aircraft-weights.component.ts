@@ -1,5 +1,5 @@
 import {Component, OnInit, Input}   from '@angular/core';
-import {AircraftWeight, Aircraft}   from '../models/aircraft';
+import {AircraftWeight, Aircraft}   from '../models/aircraft.model';
 import {AircraftService}   from '../../services/aircraft/aircraft.service';
 import {Router} from '@angular/router';
 

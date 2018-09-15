@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatButtonToggleModule, MatTabsModule, MatFormFieldModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatButtonToggleModule, MatTabsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule, MatSelectModule} from '@angular/material';
 import {MatMenuModule} from '@angular/material/menu';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -22,7 +22,6 @@ import { MainComponent } from './main/main.component';
 import { AircraftComponent } from './aircraft/aircraft.component';
 import { FlightpathComponent } from './flightpath/flightpath.component';
 import { WeatherComponent } from './weather/weather.component';
-import { TrackComponent } from './track/track.component';
 import { MapcontainerComponent } from './mapcontainer/mapcontainer.component';
 import { AgmCoreModule } from '@agm/core';
 import { FirebaseDataService } from '../services/firebasedata/firebasedata.service';
@@ -31,6 +30,12 @@ import { AircraftDetailsComponent } from './aircraft/aircraft-detail.component';
 import { AircraftWeightsComponent } from './aircraft/aircraft-weights.component';
 import { AircraftListComponent } from './aircraft/aircraftlist.component';
 import { AircraftSpeedsComponent } from './aircraft/aircraft-speeds.component';
+import { TrackDataComponent } from './track-data/track-data.component';
+import { WindDataComponent } from './weather/wind.component';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+
+
+
 
 @NgModule({
   declarations: [
@@ -42,17 +47,19 @@ import { AircraftSpeedsComponent } from './aircraft/aircraft-speeds.component';
     AircraftComponent,
     FlightpathComponent,
     WeatherComponent,
-    TrackComponent,
     MapcontainerComponent,
     AircraftDetailsComponent,
     AircraftListComponent,
     AircraftWeightsComponent,
-    AircraftSpeedsComponent
+    AircraftSpeedsComponent,
+    TrackDataComponent,
+    WindDataComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatButtonModule, MatCheckboxModule, MatMenuModule, MatButtonToggleModule, MatTabsModule, MatFormFieldModule,
+    NguiAutoCompleteModule,
+    MatButtonModule, MatCheckboxModule, MatMenuModule, MatButtonToggleModule, MatTabsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule,MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: false }),
@@ -60,9 +67,9 @@ import { AircraftSpeedsComponent } from './aircraft/aircraft-speeds.component';
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDKAmDL4ygUIbM8Sod4vrgV2NTREatolag'
-    }),
+    // AgmCoreModule.forRoot({
+    //   apiKey: 'AIzaSyDKAmDL4ygUIbM8Sod4vrgV2NTREatolag'
+    // }),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
   ],

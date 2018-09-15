@@ -1,16 +1,4 @@
-<!-- <div>
-  <div #map id="map"></div>
-<div>
-<div class="row">
-  <div class="col-xs-6">
-      <button id="btnFind" (click)="onFindClick($event)" class="form-control col-sm-3 btn btn-success">Find Airfields</button>
-      <label [hidden]="hideSearchMessage" >Searching......</label>
-  </div>   
-  <div class="col-xs-6">
-      <button id="btnClear" (click)="onClearClick($event)" class="form-control col-sm-3 btn btn-danger">Clear Search</button>
-  </div>
-<div> -->
-    <agm-map #map [latitude]="lat" [longitude]="lng" style="height: 300px">
-        <!-- <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker> -->
-    </agm-map>
-    <button (click)="onFindClick()">Click Me</button>
+
+    <div class="row map">
+        <div id="map"  #map class="map" style="height: 800px; width: 100%"></div>
+    <div>

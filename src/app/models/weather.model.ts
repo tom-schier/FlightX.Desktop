@@ -8,3 +8,12 @@ export class WindDetails {
     btnEditClass: string;
     btnRemoveClass: string;
 }
+
+export class CloudDetails {
+    id: number;
+    cloudType: number;
+    coverage: number;
+    altitude: string;
+    isReadOnly: boolean;
+    sector: number;
+}

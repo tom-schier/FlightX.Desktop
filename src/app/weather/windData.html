@@ -1,0 +1,91 @@
+<div class="container-fluid row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <h4>Wind Data</h4>
+        <table id="windTable" class="table table-striped table-condensed ">
+            <thead>
+                <tr>
+                    <th>Direction</th>
+                    <th>Speed</th>
+                    <th>Altitude</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let wind of windRows; let i=index">
+
+                <tr>
+                    <td id="tdDirection" class="col-md-3">
+                        {{wind.direction}}
+                    </td>
+                    <td id="tdSpeed" class="col-md-3">
+                        {{wind.speed}}
+                    </td>
+                    <td id="tdAltitude" class="col-md-3">
+                        {{wind.altitude}}
+                    </td>
+                    <td>
+                        <i class="fa fa-trash xp-form-button" (click)="onRemove(wind)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container-fluid row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <form [formGroup]="windForm" novalidate (ngSubmit)="onAdd(windForm.value, windForm.valid)" class="form-inline">
+    
+    <!--            <div id="speedEntry" class="form-group" [ngClass]="{'has-error':!windForm.controls['speed'].valid && windForm.controls['speed'].touched, 'has-success':windForm.controls['speed'].valid && windForm.controls['speed'].touched}">
+    -->
+                <div id="speedEntry" class="form-group">
+
+                        <label>Speed</label>
+                        <input type="text"                           
+                            data-toggle="tooltip"
+                            [formControl]="windForm.controls['speed']"
+                            data-placement="bottom"  
+                            title="Speed [kts] is required. Must be a three digit number. If you fly supersonic you can afford the expensive version."
+                            class="form-control">
+
+                </div>
+    <!--            [ngClass]="{'has-error':!windForm.controls['direction'].valid && windForm.controls['direction'].touched, 'has-success':windForm.controls['direction'].valid && windForm.controls['direction'].touched}">
+    -->       
+                <div id="directionEntry" class="form-group">         
+                    <label>Direction</label>
+                    <input type="text"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        [formControl]="windForm.controls['direction']"
+                        title="Direction is required. Must be numeric and between 0 and 360 unless you have a compass from another planet."
+                        class="form-control">
+                </div>
+    <!--           <div id="altitudeEntry" class="form-group" [ngClass]="{'has-error':!windForm.controls['altitude'].valid && windForm.controls['altitude'].touched, 'has-success':windForm.controls['altitude'].valid && windForm.controls['altitude'].touched}">
+
+    -->   
+                <div id="altitudeEntry" class="form-group">
+                    <label>Altitude</label>
+                        <select 
+                                data-toggle="tooltip"
+                                data-placement="bottom"
+                                [formControl]="windForm.controls['altitude']"
+                                title="Altitude [feet]. Obviously the values are positive."
+                                class="form-control"
+                                onchange="">
+                            <option *ngFor="let p of altList" [value]="p">{{p}}</option>
+                        </select>
+
+                </div>
+                <div id="theButton" class="form-group">
+                                        <button type="submit" class="form-control btn btn-success">
+                            <i class="fa fa-plus-square"></i>
+                        </button>
+                </div>
+
+    </form>
+</div>
+<div class="container-fluid row">
+    <ul class ="col-lg-12 col-md-12 col-sm-12">
+        <li *ngFor="let st of stComments">
+            {{ st }}
+        </li>
+    </ul>
+</div>
+</div>

@@ -1,16 +1,17 @@
+
 <div class="container-fluid">  
-  <div>
-      <map-container>
-      </map-container>
-      <div>
-          <track-data>
-          </track-data>
-          <div>
-              Select waypoints here. Enter at least 3 characters to search for a airport or waypoint as listed in the En Route Supplement as published by CASA. Then select a valid altitude from the list (using the CASA format)
-              <br>The lookup is via web api backend currently hosted in Azure.<br><br>
-              The waypoints will be drawn on the (google) map, and the resulting flight path calculations appear on the "Plan Details" tab. The map will be updated as waypoints are added or removed.
-          </div>
-      </div>
-  </div>
-  <hr>
+    <div class="row">
+        <map-container class="col-8">
+        </map-container>
+        <div class class="col-4">
+            <track-data>
+            </track-data>
+            <div>
+                Select waypoints here. Enter at least 3 characters to search for a airport or waypoint as listed in the En Route Supplement as published by CASA. Then select a valid altitude from the list (using the CASA format)
+                <br>The lookup is via web api backend currently hosted in Azure.<br><br>
+                The waypoints will be drawn on the (google) map, and the resulting flight path calculations appear on the "Plan Details" tab. The map will be updated as waypoints are added or removed.
+            </div>
+        </div>
+    </div>
+    <hr>
 </div>

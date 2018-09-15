@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Aircraft } from '../../app/models/aircraft';
+import { Aircraft } from '../../app/models/aircraft.model';
 import { Subject } from 'rxjs';
 import { aircraftList } from '../../data/mock-aircraft-data';
 import { AircraftBrief } from '../../data/aircraft.types';

@@ -2,7 +2,7 @@ import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, Injec
 import {AircraftSpeedsComponent} from './aircraft-speeds.component';
 import {AircraftWeightsComponent} from './aircraft-weights.component';
 import {AircraftService}  from '../../services/aircraft/aircraft.service';
-import {Aircraft, AircraftBrief} from '../models/aircraft';
+import {Aircraft, AircraftBrief} from '../models/aircraft.model';
 
 @Component({
     selector: 'ac-details',

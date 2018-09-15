@@ -1,20 +1,20 @@
 // import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { RegisterComponent } from './register.component';
+// import { TrackDataComponent } from './track-data.component';
 
-// describe('RegisterComponent', () => {
-//   let component: RegisterComponent;
-//   let fixture: ComponentFixture<RegisterComponent>;
+// describe('TrackDataComponent', () => {
+//   let component: TrackDataComponent;
+//   let fixture: ComponentFixture<TrackDataComponent>;
 
 //   beforeEach(async(() => {
 //     TestBed.configureTestingModule({
-//       declarations: [ RegisterComponent ]
+//       declarations: [ TrackDataComponent ]
 //     })
 //     .compileComponents();
 //   }));
 
 //   beforeEach(() => {
-//     fixture = TestBed.createComponent(RegisterComponent);
+//     fixture = TestBed.createComponent(TrackDataComponent);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });

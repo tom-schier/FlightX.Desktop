@@ -1,7 +1,7 @@
 import { iLocationService } from "../../interfaces/iLocationService";
 import { Observable } from "rxjs";
 import { xpLatLng } from "../../app/models/xpMaps";
-import { Airport, xpLocation, Waypoint } from "../../app/models/airport";
+import { Airport, xpLocation, Waypoint } from "../../app/models/airport.model";
 import { from } from 'rxjs';
 import { AngularFirestore } from "angularfire2/firestore";
 import { Injectable } from "@angular/core";
@@ -48,7 +48,7 @@ export class FirebaseDataService implements  iLocationService {
     }
 
     getAirportLocationsBySearchString(searchString: string): Observable<xpLocation[]> {
-        let qry = this._db.collection("Airports").ref.where("locName", ">=", searchString).orderBy("locName").limit(10);;
+        let qry = this._db.collection("Locations").ref.where("locName", ">=", searchString).orderBy("locName").limit(10);;
         return from(qry.get().then(data => {
             let locations = [];
             data.forEach(elem => {

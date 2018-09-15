@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { xpLocation, Airport, Waypoint } from '../app/models/airport';
+import { xpLocation, Airport, Waypoint } from '../app/models/airport.model';
 import { xpLatLng } from '../app/models/xpMaps';
 
 export interface iLocationService {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AircraftService} from '../../services/aircraft/aircraft.service';
-import { Aircraft } from '../models/aircraft';
+import { Aircraft } from '../models/aircraft.model';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -10,7 +10,7 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators, FormBuilder } 
 export class AircraftEntryComponent implements OnInit {
 
     _fb: FormBuilder;
-   // model: TrackComponent;
+   // model: TrackModel;
     stComments: string[];
     acForm: FormGroup;
 
