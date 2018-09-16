@@ -51,6 +51,8 @@ export class TrackDataComponent implements OnInit{
   waypointRef: string;
   _fb: FormBuilder;
   trackForm: FormGroup;
+  locations: FormGroup;
+  altitudes: FormGroup;
   stComments: string[];
   selected: xpLocation;
   wnd: WindDetails;
@@ -71,6 +73,16 @@ export class TrackDataComponent implements OnInit{
           this.trackRows = new Array();
           this.showList = false;
           this._fb = fb;
+          this.trackForm = new FormGroup({
+                loc: new FormGroup({ waypoint: new FormControl()}),
+                alt: new FormGroup({ altitude: new FormControl()})
+          });
+        //   this.trackForm = this._fb.group({
+
+        //     'waypoint': ['', [Validators.required, Validators.minLength(2)]],
+        //     'altitude': ['', [Validators.required]]
+        // });
+
 
           this.stBtnEditDefaultClass = "btn btn-primary glyphicon glyphicon-pencil fa-lg";
           this.stBtnEditSaveClass = "btn btn-primary glyphicon glyphicon-ok fa-lg";
@@ -85,14 +97,6 @@ export class TrackDataComponent implements OnInit{
             {value: 7, viewValue: "A080"},
             {value: 8, viewValue: "A090"}
         ]
-        //   this.altList = new Array();
-        //   this.altList.push('A020');
-        //   this.altList.push('A030');
-        //   this.altList.push('A040');
-        //   this.altList.push('A050');
-        //   this.altList.push('A060');
-        //   this.altList.push('A070');
-        //   this.altList.push('A080');
           this.isSelected = false;
           this.stLocation = "";
           this.selected = new xpLocation();
@@ -103,11 +107,6 @@ export class TrackDataComponent implements OnInit{
   }
 
   ngOnInit() {       
-          this.trackForm = this._fb.group({
-
-              'waypoint': ['', [Validators.required, Validators.minLength(2)]],
-              'altitude': ['', [Validators.required]]
-          })
 
       this._trackService.trackDetailsChange$.subscribe(
           trackDetails => {
@@ -246,7 +245,8 @@ export class TrackDataComponent implements OnInit{
   onSubmit(event) {
       this.submitted = true;
   }
-  active = true;
+
+
 
   onAdd(model: TrackModel, isValid: boolean) {
 
