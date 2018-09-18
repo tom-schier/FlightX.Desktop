@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-//import 'rxjs/add/operator/toPromise';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 
@@ -65,7 +64,7 @@ export class AuthService {
 
   doLogin(value){
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(value.email, value.password)
+      firebase.auth().signInWithEmailAndPassword(value.username, value.password)
       .then(res => {
         resolve(res);
       }, err => reject(err))
