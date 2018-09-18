@@ -33,6 +33,7 @@ import { AircraftSpeedsComponent } from './aircraft/aircraft-speeds.component';
 import { TrackDataComponent } from './track-data/track-data.component';
 import { WindDataComponent } from './weather/wind.component';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+import { AircraftEntryComponent } from './aircraft/aircraftentry.component';
 
 
 
@@ -53,7 +54,8 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
     AircraftWeightsComponent,
     AircraftSpeedsComponent,
     TrackDataComponent,
-    WindDataComponent
+    WindDataComponent,
+    AircraftEntryComponent
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
   model: any = {};
+  loading: boolean = false;
 
   constructor(
     public authService: AuthService,
@@ -20,6 +21,7 @@ export class LoginComponent {
     private fb: FormBuilder
   ) {
     this.createForm();
+  
   }
 
   createForm() {
@@ -51,11 +53,14 @@ export class LoginComponent {
   }
 
   tryLogin(value){
+    this.loading = true;
     this.authService.doLogin(value)
     .then(res => {
+      this.loading = false;
       this.router.navigate(['/main']);
     }, err => {
       console.log(err);
+      this.loading = false;
       this.errorMessage = err.message;
     })
   }
