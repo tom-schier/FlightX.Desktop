@@ -1,4 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, enableProdMode } from '@angular/core';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,13 @@ import { Component, ViewChild } from '@angular/core';
 export class AppComponent {
   lat: number = 51.678418;
   lng: number = 7.809007;
+  constructor() {
+    if (environment.production) {
+      enableProdMode();
+      if(window){
+        window.console.log=function(){};
+      }
+    }
+  }
+
 }
