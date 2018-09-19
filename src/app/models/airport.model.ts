@@ -5,7 +5,7 @@
 // }
 
 export class xpLocation {
-    locId: number;
+    locId: string;
     code: string;
     locType: number;
     locName: string;

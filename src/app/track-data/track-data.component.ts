@@ -72,8 +72,8 @@ export class TrackDataComponent implements OnInit{
             this.showList = false;
             this._fb = fb;
             this.trackForm = this._fb.group({
-                loc: '',
-                alt: ''
+                loc: ['', [Validators.required, Validators.minLength(2)]],
+                alt: ['', [Validators.required]]
               })
 
             // this.trackForm = new FormGroup({
@@ -227,18 +227,18 @@ export class TrackDataComponent implements OnInit{
     }
     active = true;
 
-    onAdd(model: TrackModel, isValid: boolean) {
+    onAdd(model: any, isValid: boolean) {
 
         this.stComments = [];
-        if (this.trackForm.controls["altitude"].valid == false)
+        if (this.trackForm.controls["alt"].valid == false)
             this.stComments.push("Select valid altitude from list.");
-        if (this.trackForm.controls["waypoint"].valid == false)
+        if (this.trackForm.controls["loc"].valid == false)
             this.stComments.push("Waypoint is invalid.");
         
         if (isValid == false)
             return;
 
-        this._trackService.getLocationByDescr(this.trackForm.controls["waypoint"].value).subscribe(x => this._trackService.AddLocation(x, this.trackForm.controls["altitude"].value));     
+        this._locService.getAirportByLocationID(model.loc.locId).subscribe(x => this._trackService.AddLocation(x, this.trackForm.controls["alt"].value));     
     }
 
 

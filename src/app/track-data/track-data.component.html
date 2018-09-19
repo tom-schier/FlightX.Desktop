@@ -23,34 +23,37 @@
             </tbody>
         </table>
     </div>
-        <div class="container-fluid ">
-        <form [formGroup]="trackForm" (ngSubmit)="onAdd(trackForm.value)" class="form-group form-inline"> 
-            <div id="waypointEntry">
-                <label class="col-sm-2">Waypoint</label>
+        <div class="container-fluid">
+        <form [formGroup]="trackForm" (ngSubmit)="onAdd(trackForm.value, trackForm.valid)" class="form-group"> 
+            <div id="waypointEntry" class="form-inline">
+                <label class="">Waypoint</label>
                 <input  ngui-auto-complete
                 placeholder="Enter airfield name, code, etc"
                 [list-formatter]="autocompleListFormatter"
                 formControlName="loc"
                 display-property-name="locName"
                 [source]="observableSource"
-                class="form-control col-sm-7"/>
-                <div id="altitudeEntry">
+                class="form-control"/>
+        
+            </div>
+            <div id="altitudeEntry" class="form-inline">
                     <label  class="col-sm-2">Altitude</label>
                     <select formControlName="alt"
                             data-toggle="tooltip"
                             data-placement="bootom"
                
                             title="Select the altitude for this segment."
-                            [hidden]="trackForm.controls.alt.valid || (trackForm.controls.alt.pristine && !submitted)"
-                            class="form-control col-sm-3">
+                            class="form-control">
                         <option *ngFor="let p of altList" [value]="p">{{p}}</option>
                     </select>
-                </div>            
-                <span><button type="submit" class="form-control btn btn-success col-sm-2" [disabled]="!isSelected">
-                    <i class="fa fa-plus-square xp-form-button"></i>
-                </button></span> 
-                <label [hidden]="!showList || isSelected" >Searching......</label>
+                    <span><button type="submit" class="form-control btn btn-success">
+                            <i class="fa fa-plus-square xp-form-button"></i>
+                        </button></span> 
+                        <label [hidden]="!showList || isSelected" >Searching......</label>
             </div>
+            <div>
+
+            </div>   
         </form>
         <div class="container-fluid">
             <ul>

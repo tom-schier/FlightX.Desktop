@@ -13,7 +13,6 @@ export class FirebaseDataService implements  iLocationService {
     token:  string;
     countries: CountryList;
     private _db: AngularFirestore;
-    // SetCompleterDataSource(): CompleterData;
 
     constructor(public db: AngularFirestore) {
         this._db = db;
@@ -32,7 +31,7 @@ export class FirebaseDataService implements  iLocationService {
             let locations = [];
             data.forEach(elem => {
                 let ap = new Airport();
-                ap.locId = parseInt(elem.id);
+                ap.locId = elem.id;
                 ap.locName = elem.get('locName');
                 ap.code = elem.get('code');
                 ap.elevation = elem.get("elevation");
@@ -51,12 +50,14 @@ export class FirebaseDataService implements  iLocationService {
     }
 
     getAirportLocationsBySearchString(searchString: string): Observable<xpLocation[]> {
+        if (searchString == "")
+            return null;
         let qry = this._db.collection("Locations").ref.where("locName", ">=", searchString).orderBy("locName").limit(10);;
         return from(qry.get().then(data => {
             let locations = [];
             data.forEach(elem => {
                 let ap = new xpLocation();
-                ap.locId = parseInt(elem.id);
+                ap.locId = elem.id;
                 ap.locName = elem.get('locName');
                 ap.code = elem.get('code');
                 ap.latitude = elem.get('latitude');
@@ -74,10 +75,12 @@ export class FirebaseDataService implements  iLocationService {
     }
 
     getAirportByLocationID(locId: number): Observable<Airport> {
-        let qry = this._db.collection("Airports").ref.doc(locId.toString());
+        if (locId == null)
+            return null;
+        let qry = this._db.collection("Locations").ref.doc(locId.toString());
         return from(qry.get().then(elem => {
             let ap = new Airport();
-            ap.locId = parseInt(elem.id);
+            ap.locId = elem.id;
             ap.locName = elem.get('locName');
             ap.code = elem.get('code');
             ap.latitude = elem.get('latitude');
@@ -88,10 +91,12 @@ export class FirebaseDataService implements  iLocationService {
     }
 
     getWaypointByLocationID(locId: number): Observable<Waypoint> {
+        if (locId == null)
+            return null;
         let qry = this._db.collection("Locations").ref.doc(locId.toString());
         return from(qry.get().then(elem => {
             let wp = new Waypoint();
-            wp.locId = parseInt(elem.id);
+            wp.locId = elem.id;
             wp.locName = elem.get('locName');
             wp.code = elem.get('code');
             wp.latitude = elem.get('latitude');
@@ -102,10 +107,12 @@ export class FirebaseDataService implements  iLocationService {
     }
 
     getLocationByLocationID(locId: number): Observable<xpLocation> {
+        if (locId == null)
+            return null;
         let qry = this._db.collection("Locations").ref.doc(locId.toString());
         return from(qry.get().then(elem => {
             let ap = new xpLocation();
-            ap.locId = parseInt(elem.id);
+            ap.locId = elem.id;
             ap.locName = elem.get('locName');
             ap.code = elem.get('code');
             ap.latitude = elem.get('latitude');
