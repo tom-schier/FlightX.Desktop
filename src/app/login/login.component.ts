@@ -64,4 +64,15 @@ export class LoginComponent {
       this.errorMessage = err.message;
     })
   }
+
+  tryRegister(value){
+    this.authService.doRegister(value)
+    .then(res => {
+      this.router.navigate(['/main']);
+    }, err => {
+      console.log(err);
+      this.loading = false;
+      this.errorMessage = err.message;
+    })
+  }
 }

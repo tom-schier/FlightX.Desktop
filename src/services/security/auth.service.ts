@@ -54,8 +54,23 @@ export class AuthService {
   }
 
   doRegister(value){
+    var actionCodeSettings = {
+      // URL you want to redirect back to. The domain (www.example.com) for this
+      // URL must be whitelisted in the Firebase Console.
+      url: 'https://xptraining-bfa66.firebaseapp.com',
+      // This must be true.
+      handleCodeInApp: true,
+      iOS: {
+        bundleId: 'com.example.ios'
+      },
+      android: {
+        packageName: 'com.example.android',
+        installApp: true,
+        minimumVersion: '12'
+      }
+    };
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
+      firebase.auth().sendSignInLinkToEmail(value.username, actionCodeSettings)
       .then(res => {
         resolve(res);
       }, err => reject(err))
