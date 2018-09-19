@@ -18,7 +18,8 @@ import { WindDetails } from '../models/weather.model';
 
 @Component({
     selector: 'wind-data',
-    templateUrl: 'windData.html'
+    templateUrl: 'windData.html',
+    styles: ["./weather.component.css"]
 })
 export class WindDataComponent implements OnInit {
 

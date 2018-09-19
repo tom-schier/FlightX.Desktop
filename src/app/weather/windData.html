@@ -37,7 +37,7 @@
     -->
                 <div id="speedEntry" class="form-group">
 
-                        <label>Speed</label>
+                        <label style="margin-right: 5px">Speed </label>
                         <input type="text"                           
                             data-toggle="tooltip"
                             [formControl]="windForm.controls['speed']"
@@ -49,7 +49,7 @@
     <!--            [ngClass]="{'has-error':!windForm.controls['direction'].valid && windForm.controls['direction'].touched, 'has-success':windForm.controls['direction'].valid && windForm.controls['direction'].touched}">
     -->       
                 <div id="directionEntry" class="form-group">         
-                    <label>Direction</label>
+                    <label style="margin-right: 5px; margin-left: 10px">Direction </label>
                     <input type="text"
                         data-toggle="tooltip"
                         data-placement="bottom"
@@ -61,7 +61,7 @@
 
     -->   
                 <div id="altitudeEntry" class="form-group">
-                    <label>Altitude</label>
+                    <label style="margin-right: 5px; margin-left: 10px">Altitude </label>
                         <select 
                                 data-toggle="tooltip"
                                 data-placement="bottom"
@@ -73,7 +73,7 @@
                         </select>
 
                 </div>
-                <div id="theButton" class="form-group">
+                <div id="theButton" class="form-group" style="margin-left: 10px;">
                                         <button type="submit" class="form-control btn btn-success">
                             <i class="fa fa-plus-square"></i>
                         </button>
