@@ -53,6 +53,7 @@ export class WindDataComponent implements OnInit {
         })
 
         this.altList = new Array();
+        this.altList.push('A010');
         this.altList.push('A020');
         this.altList.push('A030');
         this.altList.push('A040');
@@ -60,7 +61,8 @@ export class WindDataComponent implements OnInit {
         this.altList.push('A060');
         this.altList.push('A070');
         this.altList.push('A080');
-
+        this.altList.push('A090');
+        this.altList.push('FL100');
     }
 
     ngOnInit() {
@@ -81,6 +83,14 @@ export class WindDataComponent implements OnInit {
         this.loadWinds();
     }
 
+    windAlreadyExists(model: WindDetails): boolean {
+        if (this.windRows.length == 0) 
+            return false;
+        
+        let idx = this.windRows.findIndex(x => x.altitude == model.altitude);
+        return (idx > -1);
+    }
+
     onAdd(model: WindDetails, isValid: boolean) {
         this.stComments = [];
         if (this.windForm.controls["altitude"].valid == false)
@@ -90,6 +100,11 @@ export class WindDataComponent implements OnInit {
         if (this.windForm.controls["speed"].valid == false)
             this.stComments.push("Speed is invalid. Must be be a number between 1 and 300");
 
+        if (this.windAlreadyExists(model) == true){
+            this.stComments.push("There already is a wind entry for this level");
+            return;
+        }
+            
         if (isValid == false)
             return;
         var newWind = new WindDetails();

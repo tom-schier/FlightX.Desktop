@@ -102,9 +102,9 @@ var aircraftWeightsMooney = [
 
 
 export var aircraftList = [
-        new Aircraft(1, "Cessna 172", aircraftSpeedsCessna172, aircraftWeightsCessna172, "/public/images/Cessna172.jpg"),
-        new Aircraft(2, "Cirrus SR20", aircraftSpeedsCirrusSR20, aircraftWeightsCirrusSR20, "/public/images/CirrusSR20.jpg"),
-        new Aircraft(3, "Piper PA28", aircraftSpeedsPA28, aircraftWeightsPA28, "/public/images/PA28.jpg"),
-        new Aircraft(4, "Mooney M20J", aircraftSpeedsMooney, aircraftWeightsMooney, "/public/images/MooneyM20J.jpg")
+        new Aircraft(1, "Cessna 172", aircraftSpeedsCessna172, aircraftWeightsCessna172, "/assets/images/Cessna172.jpg"),
+        new Aircraft(2, "Cirrus SR20", aircraftSpeedsCirrusSR20, aircraftWeightsCirrusSR20, "/assets/images/CirrusSR20.jpg"),
+        new Aircraft(3, "Piper PA28", aircraftSpeedsPA28, aircraftWeightsPA28, "/assets/images/PA28.jpg"),
+        new Aircraft(4, "Mooney M20J", aircraftSpeedsMooney, aircraftWeightsMooney, "/assets/images/MooneyM20J.jpg")
     ];
 
