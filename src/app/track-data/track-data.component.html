@@ -3,21 +3,22 @@
         <table id="trackTable" class="table table-striped table-condensed ">
             <thead>
                 <tr>
-                    <th>Waypoint</th>
-                    <th>Description</th>
+                    <th class="xp-col-1">Waypoint</th>
+                    <th class="xp-col-2">Description</th>
+                    <th class="xp-col-3"></th>
                 </tr>
             </thead>
             <tbody *ngFor="let point of waypoints; let i=index">
     
                 <tr>
-                    <td id="tdWaypoint" class="col-md-3">
+                    <td id="tdWaypoint" class="xp-col-1">
                         {{point.code}}
                     </td>
-                    <td id="tdAltitude" class="col-md-7">
+                    <td id="tdAltitude" class="xp-col-2">
                         {{point.locName}}
                     </td>
-                    <td>
-                        <i class="fa fa-trash xp-form-button col-md-2" (click)="onRemove(point)"></i>
+                    <td class="xp-col-3">
+                        <i class="fa fa-trash xp-form-button col-2" (click)="onRemove(point)"></i>
                     </td>
                 </tr>
             </tbody>
@@ -25,8 +26,8 @@
     </div>
         <div class="container-fluid">
         <form [formGroup]="trackForm" (ngSubmit)="onAdd(trackForm.value, trackForm.valid)" class="form-group"> 
-            <div id="waypointEntry" class="form-inline">
-                <label class="">Waypoint</label>
+            <div id="waypointEntry" class="form form-inline">
+                <label class="xp-label">Waypoint</label>
                 <input  ngui-auto-complete
                 placeholder="Enter airfield name, code, etc"
                 [list-formatter]="autocompleListFormatter"
@@ -36,8 +37,8 @@
                 class="form-control"/>
         
             </div>
-            <div id="altitudeEntry" class="form-inline">
-                    <label  class="col-sm-2">Altitude</label>
+            <div id="altitudeEntry" class="form form-inline">
+                    <label  class="xp-label">Altitude</label>
                     <select formControlName="alt"
                             data-toggle="tooltip"
                             data-placement="bootom"

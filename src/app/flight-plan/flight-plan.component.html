@@ -1,0 +1,66 @@
+ 
+    <div>
+        <h4 >Flight Plan Details : {{selectedAircraft.name}}</h4>
+        <table id="trackTable" class="table table-condensed table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>TAS [kts]</th>
+                    <th>Altitude</th>
+                    <th>Distance[nm]</th>
+                    <th>Track(T)</th>
+                    <th>GS [kts]</th>
+                    <th>ETI [min]</th>
+                    <th>Hdg</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let tr of _trackService.tracks; let i=index" class="xp-font-md">
+                <tr class="xp-font-md">
+                    <td id="tdFromLocation">
+                        {{tr.fromLocation}}
+                    </td>
+                    <td id="tdFromLocation">
+                        {{tr.toLocation}}
+                    </td>
+                    <td id="tdTas">
+                        {{acFlightPlanSpeed}}
+                    </td>
+                    <td id="tdAltitude">
+                        {{tr.altitude}}
+                    </td>
+                    <td id="tdDistance">
+                        {{tr.distance}}
+                    </td>
+                    <td id="tdTrack">
+                        {{tr.trackTrue}}
+                    </td>                    
+                    <td id="tdGS">
+                        {{tr.gs}}
+                    </td>
+                    <td id="tdETI">
+                        {{tr.ti}}
+                    </td>
+                    <td id="tdHdg">
+                        {{tr.headingMag}}
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="xp-font-md">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{totalDistance}}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{totalTime}}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="row">
+        This is the resulting flight plan taking into account track information via designated waypoints and the appropriate wind speed at the altitude for each track segment.
+    </div>

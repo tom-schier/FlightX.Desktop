@@ -76,11 +76,6 @@ export class TrackDataComponent implements OnInit{
                 alt: ['', [Validators.required]]
               })
 
-            // this.trackForm = new FormGroup({
-            //     loc: new FormGroup({ searchTerm: this.searchTerm },[Validators.required, Validators.minLength(2)]),
-            //     alt: new FormGroup({ altitude: new FormControl()},[Validators.required])
-            // });
-
             this.stBtnEditDefaultClass = "btn btn-primary glyphicon glyphicon-pencil fa-lg";
             this.stBtnEditSaveClass = "btn btn-primary glyphicon glyphicon-ok fa-lg";
             this.stBtnRemoveClass = "btn btn-primary glyphicon glyphicon-remove fa-lg";
@@ -107,19 +102,17 @@ export class TrackDataComponent implements OnInit{
         this.searchTerm.valueChanges
           .pipe(debounceTime(400))
           .subscribe(data => {
-              this._locService.getAirportLocationsBySearchString(data).subscribe(response =>{
-                  this.searchResult = response
-              })
+              if (data.length > 2) {
+                this._locService.getAirportLocationsBySearchString(data).subscribe(response =>{
+                    this.searchResult = response
+                })
+              }
+
           })
 
     }
 
     ngOnInit() {       
-            // this.trackForm = this._fb.group({
-
-            //     'waypoint': ['', [Validators.required, Validators.minLength(2)]],
-            //     'altitude': ['', [Validators.required]]
-            // })
 
         this._trackService.trackDetailsChange$.subscribe(
             trackDetails => {

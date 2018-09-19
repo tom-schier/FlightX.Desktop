@@ -1,9 +1,21 @@
-.example-container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .example-container > * {
-    width: 100%;
-  }
-  
+.xp-col-1 {
+  width: 20%
+}
+.xp-col-2 {
+  width: 70%
+}
+
+.xp-col-3 {
+  width: 10%
+}
+
+.xp-label {
+  margin: 5px;
+  width: 15%;
+  text-align: left;
+}
+
+.xp-search-input {
+    width: 85%;
+}
+
