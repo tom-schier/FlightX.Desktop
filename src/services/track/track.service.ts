@@ -41,7 +41,7 @@ export class TrackService  {
   totalTimeChanged$ = this.obTotalTime.asObservable();
   totalDistanceChanged$ = this.obTotalDistance.asObservable();
 
-  constructor(@Inject('iLocationService') private _locService: iLocationService, private _weatherSvc: WeatherService) {
+  constructor(private _weatherSvc: WeatherService) {
       console.log('creating flight planning service');
       this.tracks = new Array();
       this.waypoints = new Array();
@@ -52,18 +52,6 @@ export class TrackService  {
           });  
       this.tst = "Tomas"
   }
-
-  // BuildHeader(){
-  //     this.headers = new Headers;
-  //     this.options = new RequestOptions;
-  //     let token = localStorage.getItem("access_token");
-  //     this.headers.append('Content-Type', 'application/json');
-  //     this.headers.append('Accept', '*/*');
-  //     let st = 'Bearer ' + token;
-  //     this.headers.append('Authorization', st);
-  //     this.options = new RequestOptions({headers: this.headers});       
-  // }
-
 
   loadWinds() {
       this.windRows = this._weatherSvc.winds;
@@ -334,110 +322,6 @@ export class TrackService  {
       this.tracks[idx] = aTrack;
       this.obTrackDetails.next(this.tracks);
   }
-
-  search(term: string): Observable<xpLocation[]> {
-     // this.BuildHeader();
-      if (term.length < 3)
-          return;
-      let outSt = encodeURI(term);
-      return this._locService.getAirportLocationsBySearchString(outSt)
-      // return this._http.get(this.locServiceUrl + "FindLocations/?st=" + outSt, this.options)
-      //     .map((res) => res.json());            
-  }
-
-  public getAirportLocationsBySearchString(searchString: string): Observable<xpLocation[]>{
-                    if (searchString == null || searchString == 'undefined')
-                      return null;
-                      this._locService.getAirportLocationsBySearchString(searchString);
-  }
-
-  // public getAirportLocationsBySearchString(searchString: string): Observable<xpLocation[]> {
-  //             if (searchString == null || searchString == 'undefined')
-  //                     return;
-  //             this.BuildHeader();
-
-
-  //             let params: string = [
-  //                 `st=${searchString}`,
-  //                 `numRecords=${15}`,
-  //                 `locType=${1}`,
-  //                 `filter=${7}`
-  //               ].join('&');
-  //               //let endpoint: string = `${this.getUrl(this.actionGetByName)}?${params}`;
-                            
-
-  //             var outSt = this.locServiceUrl + `FindLocations/?${params}`;
-      
-  //             return this._http.get(outSt, this.options)
-  //                 .map(this.extractData);
-  //             //.catch(this.handleError);
-  //         }
-      
-  // public getWaypointsNearByEx(sthWestPos: google.maps.LatLng, northEastPos: google.maps.LatLng, locType: number): Observable<Waypoint[]> {
-
-  //     this.BuildHeader();
-  //     if (sthWestPos == null || northEastPos == null)
-  //         return;
-  //     let latUpp = northEastPos.lat.toString();
-  //     var lngUpp = northEastPos.lng.toString();
-  //     var latLow = sthWestPos.lat.toString();
-  //     var lngLow = sthWestPos.lng.toString();
-  //     var outSt = this.locServiceUrl + "FindWaypoints/?latUpper=" + latUpp + "&latLower=" + latLow + "&lngUpper=" + lngUpp + "&lngLower=" + lngLow + "&waypointType=" + locType;
-
-  //     return this._http.get(outSt, this.options)
-  //         .map(this.extractData);
-  // }
-
-  // getAirportsNearBy(pos: google.maps.LatLngBounds): Observable<Airport[]>{
-
-  //     if (pos == null)
-  //         return;
-  //     this.BuildHeader();
-  //     let latUpp = pos.getNorthEast().lat().toString();
-  //     var lngUpp = pos.getNorthEast().lng().toString();
-  //     var latLow = pos.getSouthWest().lat().toString();
-  //     var lngLow = pos.getSouthWest().lng().toString();
-  //     //var outSt = this.locServiceUrl + "DoMonkeyShit/";
-  //     var outSt = this.locServiceUrl + "FindAirfields/?latUpper=" + latUpp + "&latLower=" + latLow + "&lngUpper=" + lngUpp + "&lngLower=" + lngLow  + "&filter=7";
-  //     return this._http.get(outSt, this.options)
-  //                 .map(this.extractData)
-  //                 .catch(this.handleError);
-  //     // return this._http.get(this.locServiceUrl + "AllLocs/?st=ABA")
-  //     //     .map((res) => res.json());    
-  // }
-
-  getLocation(id: number): Observable<xpLocation> {
-    return this._locService.getAirportByLocationID(id);
-     // this.BuildHeader();
-      // return this._http.get(this.locServiceUrl + "LocByID/?id=" + id, this.options)
-      //     .map((res) => res.json());
-  }
-
-  getLocationByDescr(desc: string): Observable<xpLocation> {
-     // this.BuildHeader();
-      let outSt = encodeURI(desc);
-      return this._locService.getAirportLocationsBySearchString(desc)[0];
-      // return this._http.get(this.locServiceUrl + "LocByDesc/?descr=" + outSt, this.options)
-      //     .map((res) => res.json());
-  } 
-
-  // private extractData(res: Response) {
-  //     let body = res.json();
-  //     return body;
-  // }
-
-  // private handleError (error: Response | any) {
-  //     let errMsg: string;
-  //     if (error instanceof Response) {
-  //         const body = error.json() || '';
-  //         const err = body.error || JSON.stringify(body);
-  //         errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-  //     } else {
-  //         errMsg = error.message ? error.message : error.toString();
-  //     }
-  //     console.error(errMsg);
-  //     return Observable.throw(errMsg);
-  // }
 
   logError(err) {
       console.error('There was an error: ' + err);

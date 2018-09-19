@@ -61,6 +61,7 @@ export class FirebaseDataService implements  iLocationService {
                 ap.locName = elem.get('locName');
                 ap.code = elem.get('code');
                 ap.latitude = elem.get('latitude');
+                ap.locType = elem.get('locType');
                 ap.longitude = elem.get('longitude');
                 let code = elem.get('apCountry');
                 ap.locCountry = this.countries.findCountry(code);
@@ -84,6 +85,7 @@ export class FirebaseDataService implements  iLocationService {
             ap.locName = elem.get('locName');
             ap.code = elem.get('code');
             ap.latitude = elem.get('latitude');
+            ap.locType = elem.get('locType');
             ap.longitude = elem.get('longitude');
             ap.locCountry = elem.get('apCountry');
             return ap;           
@@ -101,6 +103,7 @@ export class FirebaseDataService implements  iLocationService {
             wp.code = elem.get('code');
             wp.latitude = elem.get('latitude');
             wp.longitude = elem.get('longitude');
+            wp.locType = elem.get('locType');
             wp.locCountry = elem.get('apCountry');
             return wp;           
         }));
@@ -117,13 +120,9 @@ export class FirebaseDataService implements  iLocationService {
             ap.code = elem.get('code');
             ap.latitude = elem.get('latitude');
             ap.longitude = elem.get('longitude');
+            ap.locType = elem.get('locType');
             ap.locCountry = elem.get('apCountry');
             return ap;           
         }));
-    }
-
-    private extractData(res: Response) {
-        let body = res.json();
-        return body;
     }
 }

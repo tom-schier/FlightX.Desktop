@@ -64,7 +64,7 @@ export class TrackDataComponent implements OnInit{
     searchResult : xpLocation[];
 
     constructor(private _trackService: TrackService, private _weatherService: WeatherService, 
-         private _acService: AircraftService, private fb: FormBuilder, private _sanitizer: DomSanitizer, @Inject('iLocationService') private _locService: iLocationService)
+         private _acService: AircraftService, private fb: FormBuilder,  @Inject('iLocationService') private _locService: iLocationService)
         {
          
             this.model = new TrackModel();

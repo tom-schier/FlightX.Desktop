@@ -25,7 +25,7 @@ export class Airport extends xpLocation {
     //latitude: number;
     //longitude: number;
     //apType: string;
-    apSource: string;
+    apSource: string ;
     apAddress: string;
     apContact: string;
     apSubType: string;

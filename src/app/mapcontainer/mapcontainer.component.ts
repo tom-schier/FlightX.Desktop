@@ -8,7 +8,7 @@ import { TrackService } from '../../services/track/track.service';
 //  import { Observable }     from 'rxjs/Observable';
 //  import { Subject }    from 'rxjs/Subject';
 import { Airport, xpLocation } from '../models/airport.model';
-import { XpAirfieldCategory } from '../models/globals.model'
+import { XpAirfieldCategory, XpLocationType, XpAirfieldTypes } from '../models/globals.model'
 
 declare var map: any;
 declare var geocoder: any;
@@ -167,13 +167,80 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
   //     console.log('onFindClick');
   //     this.hideSearchMessage = false;
   //     var bounds = this.theMap.getBounds();
-  //     this._trackService.getAirportsNearBy(bounds).subscribe(
+  //     this._locService.getAirportsNearBy(bounds).subscribe(
   //        apData => this.setMarkersForAirports(apData),
   //        error =>  this.errorMessage = <any>error);
 
   //     console.log("Found airfields");      
   // }
 
+  addLocationToMap(ap: xpLocation) : google.maps.Marker {
+    if (ap == null)
+      return;
+
+  var markerTypeBase = "/assets/images/";
+    let infowindow = new google.maps.InfoWindow({
+      content: ap.code + " : " + ap.locName
+    });
+    var theIcon;
+    theIcon = {
+      url: markerTypeBase + "airport.png", // url
+      size: new google.maps.Size(25, 25), // scaled size
+      origin: new google.maps.Point(0, 0), // origin
+      anchor: new google.maps.Point(0, 0), // anchor
+      scaledSize: new google.maps.Size(15, 15),
+      title: ap.locName
+    }
+    let locLatLng: google.maps.LatLng;
+    if (ap.locType == XpAirfieldTypes.HELIPORT) {
+      theIcon = {
+        url: markerTypeBase + "heliport.png", // url
+        size: new google.maps.Size(25, 25), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0), // anchor
+        scaledSize: new google.maps.Size(15, 15),
+        title: ap.locName
+      }
+    }
+    if (ap.locType == XpAirfieldTypes.SEAPLANE_BASE) {
+      theIcon = {
+        url: markerTypeBase + "seaplane.png", // url
+        size: new google.maps.Size(25, 25), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0),
+        scaledSize: new google.maps.Size(15, 15),
+        title: ap.locName // anchor
+      }
+    }
+
+    locLatLng = new google.maps.LatLng(ap.latitude, ap.longitude, false);
+    var marker = new google.maps.Marker({
+      position: locLatLng,
+      icon: theIcon,
+      map: this.theMap
+    });
+    google.maps.event.addListener(marker, 'mouseover', function () {
+      infowindow.open(map, this);
+    });
+
+    google.maps.event.addListener(marker, 'mouseout', function () {
+      infowindow.close();
+    });
+
+    google.maps.event.addListener(marker, 'rightclick', (mouseEvent) => {
+      alert("right clicked marker");
+    });
+    this.nearFields.push(marker);
+    this.markers.push(marker);
+    this.lat = ap.latitude;
+    this.lng = ap.longitude;
+
+    if (this.markers.length > 1) {
+      this.drawLine(this.markers[this.markers.length - 1], this.markers[this.markers.length - 2]);
+    }
+    this.theMap.setCenter(locLatLng);
+    return marker;
+  }
 
   setMarkersForAirports(apData: Airport[]) {
     if (apData == null)
@@ -182,69 +249,11 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
     var markerTypeBase = "/public/images/";
     for (let i = 0; i < cnt; i++) {
       let aa = apData[i];
-
-      let infowindow = new google.maps.InfoWindow({
-        content: apData[i].code + " : " + apData[i].locName + ", " + apData[i].elevation
-      });
-      var theIcon;
-      theIcon = {
-        url: markerTypeBase + "airport.png", // url
-        size: new google.maps.Size(25, 25), // scaled size
-        origin: new google.maps.Point(0, 0), // origin
-        anchor: new google.maps.Point(0, 0), // anchor
-        scaledSize: new google.maps.Size(15, 15),
-        title: apData[i].locName
-      }
-      let locLatLng: google.maps.LatLng;
-      if (apData[i].apCategoryId == XpAirfieldCategory.HELIPAD_MARKER) {
-        theIcon = {
-          url: markerTypeBase + "heliport.png", // url
-          size: new google.maps.Size(25, 25), // scaled size
-          origin: new google.maps.Point(0, 0), // origin
-          anchor: new google.maps.Point(0, 0), // anchor
-          scaledSize: new google.maps.Size(15, 15),
-          title: apData[i].locName
-        }
-      }
-      if (apData[i].apCategoryId == XpAirfieldCategory.SEAPORT_MARKER) {
-        theIcon = {
-          url: markerTypeBase + "seaplane.png", // url
-          size: new google.maps.Size(25, 25), // scaled size
-          origin: new google.maps.Point(0, 0), // origin
-          anchor: new google.maps.Point(0, 0),
-          scaledSize: new google.maps.Size(15, 15),
-          title: apData[i].locName // anchor
-        }
-      }
-
-      locLatLng = new google.maps.LatLng(aa.latitude, aa.longitude, false);
-      var marker = new google.maps.Marker({
-        position: locLatLng,
-        icon: theIcon,
-        map: this.theMap
-      });
-      google.maps.event.addListener(marker, 'mouseover', function () {
-        infowindow.open(map, this);
-      });
-
-      google.maps.event.addListener(marker, 'mouseout', function () {
-        infowindow.close();
-      });
-
+      let marker = this.addLocationToMap(apData[i]);
       google.maps.event.addListener(marker, 'click', () => {
-        this._trackService.getLocationByDescr(apData[i].locName).subscribe(x => this._trackService.AddLocation(x, "AO50"));
-        // var newLoc: apLocation;
-        // newLoc;
-
-        //this._trackService.AddLocation(newLoc, "A050");
+         this._trackService.AddLocation(aa, "AO50");
       });
 
-
-      google.maps.event.addListener(marker, 'rightclick', (mouseEvent) => {
-        alert("right clicked marker");
-      });
-
-      this.nearFields.push(marker);
     }
     this.hideSearchMessage = true;
   }
@@ -267,13 +276,10 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
     this.clearMarkers();
     let centreLoc: google.maps.LatLng;
     for (let aLoc of this._trackService.waypoints) {
-      let locLatLng: google.maps.LatLng;
-
-      locLatLng = new google.maps.LatLng(aLoc.latitude, aLoc.longitude, false);
-      centreLoc = locLatLng;
-      this.addMarker(locLatLng);
+      this.addLocationToMap(aLoc)
     }
-    this.theMap.setCenter(centreLoc);
+
+    //this.theMap.setCenter(centreLoc);
     this.showMarkers();
   }
 

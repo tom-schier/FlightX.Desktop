@@ -7,8 +7,6 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  lat: number = 51.678418;
-  lng: number = 7.809007;
   constructor() {
     if (environment.production) {
       if(window){
