@@ -5,16 +5,19 @@ import { Airport, xpLocation, Waypoint } from "../../app/models/airport.model";
 import { from } from 'rxjs';
 import { AngularFirestore } from "angularfire2/firestore";
 import { Injectable } from "@angular/core";
+import { CountryList } from "../../data/mapping/countries";
 
 @Injectable()
 export class FirebaseDataService implements  iLocationService {
 
     token:  string;
+    countries: CountryList;
     private _db: AngularFirestore;
     // SetCompleterDataSource(): CompleterData;
 
     constructor(public db: AngularFirestore) {
         this._db = db;
+        this.countries = new CountryList();
     }
 
     getAirportsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng): Observable<Airport[]> {
@@ -35,7 +38,7 @@ export class FirebaseDataService implements  iLocationService {
                 ap.elevation = elem.get("elevation");
                 ap.latitude = elem.get('latitude');
                 ap.longitude = elem.get('longitude');
-                ap.locCountry = elem.get('locCountry');
+                ap.locCountry = elem.get('apCountry');
                 locations.push(ap);
             });
             return locations;
@@ -58,7 +61,8 @@ export class FirebaseDataService implements  iLocationService {
                 ap.code = elem.get('code');
                 ap.latitude = elem.get('latitude');
                 ap.longitude = elem.get('longitude');
-                ap.locCountry = elem.get('locCountry');
+                let code = elem.get('apCountry');
+                ap.locCountry = this.countries.findCountry(code);
                 locations.push(ap);
             });
             return locations;
@@ -78,7 +82,7 @@ export class FirebaseDataService implements  iLocationService {
             ap.code = elem.get('code');
             ap.latitude = elem.get('latitude');
             ap.longitude = elem.get('longitude');
-            ap.locCountry = elem.get('locCountry');
+            ap.locCountry = elem.get('apCountry');
             return ap;           
         }));
     }
@@ -92,7 +96,7 @@ export class FirebaseDataService implements  iLocationService {
             wp.code = elem.get('code');
             wp.latitude = elem.get('latitude');
             wp.longitude = elem.get('longitude');
-            wp.locCountry = elem.get('locCountry');
+            wp.locCountry = elem.get('apCountry');
             return wp;           
         }));
     }
@@ -106,7 +110,7 @@ export class FirebaseDataService implements  iLocationService {
             ap.code = elem.get('code');
             ap.latitude = elem.get('latitude');
             ap.longitude = elem.get('longitude');
-            ap.locCountry = elem.get('locCountry');
+            ap.locCountry = elem.get('apCountry');
             return ap;           
         }));
     }

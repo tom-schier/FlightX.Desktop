@@ -71,16 +71,22 @@ export class TrackDataComponent implements OnInit{
             this.trackRows = new Array();
             this.showList = false;
             this._fb = fb;
-            this.trackForm = new FormGroup({
-                loc: new FormGroup({ searchTerm: this.searchTerm },[Validators.required, Validators.minLength(2)]),
-                alt: new FormGroup({ altitude: new FormControl()},[Validators.required])
-            });
+            this.trackForm = this._fb.group({
+                loc: '',
+                alt: ''
+              })
+
+            // this.trackForm = new FormGroup({
+            //     loc: new FormGroup({ searchTerm: this.searchTerm },[Validators.required, Validators.minLength(2)]),
+            //     alt: new FormGroup({ altitude: new FormControl()},[Validators.required])
+            // });
 
             this.stBtnEditDefaultClass = "btn btn-primary glyphicon glyphicon-pencil fa-lg";
             this.stBtnEditSaveClass = "btn btn-primary glyphicon glyphicon-ok fa-lg";
             this.stBtnRemoveClass = "btn btn-primary glyphicon glyphicon-remove fa-lg";
 
             this.altList = new Array();
+            this.altList.push('A010');
             this.altList.push('A020');
             this.altList.push('A030');
             this.altList.push('A040');
@@ -88,6 +94,8 @@ export class TrackDataComponent implements OnInit{
             this.altList.push('A060');
             this.altList.push('A070');
             this.altList.push('A080');
+            this.altList.push('A090');
+            this.altList.push('FL100');
             this.isSelected = false;
             this.stLocation = "";
             this.selected = new xpLocation();
@@ -137,7 +145,7 @@ export class TrackDataComponent implements OnInit{
 
 
     autocompleListFormatter (data: any) {
-        let html =   `<img src="/public/countries/${data.apCountry}.png" class="flag" /><span>${data.locName}  ${data.code}</span>`;
+        let html =   `<img src="/assets/countries/${data.locCountry}.png" class="flag" /><span>${data.locName}  ${data.code}</span>`;
         this.showList = true;
         return html;
     }
@@ -157,7 +165,7 @@ export class TrackDataComponent implements OnInit{
             return of([]);
         if (keyword) {
             this.showList = true;
-            return this._trackService.getAirportLocationsBySearchString(keyword);
+            return this._locService.getAirportLocationsBySearchString(keyword);
         } else {
             return of([]);
         }
