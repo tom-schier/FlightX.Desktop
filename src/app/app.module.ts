@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, enableProdMode } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCheckboxModule, MatButtonToggleModule, MatTabsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule, MatSelectModule, MatCardModule} from '@angular/material';
 import {MatMenuModule} from '@angular/material/menu';
@@ -82,4 +82,5 @@ import { FlightPlanComponent } from './flight-plan/flight-plan.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -1,4 +1,4 @@
-import { Component, ViewChild, enableProdMode } from '@angular/core';
+import { Component} from '@angular/core';
 import { environment } from '../environments/environment';
 
 @Component({
@@ -11,7 +11,6 @@ export class AppComponent {
   lng: number = 7.809007;
   constructor() {
     if (environment.production) {
-      enableProdMode();
       if(window){
         window.console.log=function(){};
       }
