@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { TrackModel } from '../models/track.model';
 import { Aircraft } from '../models/aircraft.model';
-import { xpLocation } from '../models/airport.model';
+import { xpLocation, xpTrackingPoint } from '../models/airport.model';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { WindDetails } from '../models/weather.model';
 import { WeatherService } from '../../services/weather/weather.service';
@@ -235,7 +235,7 @@ export class TrackDataComponent implements OnInit{
     }
 
 
-    onRemove(aLoc: xpLocation) {
+    onRemove(aLoc: xpTrackingPoint) {
         this._trackService.RemoveWaypoint(aLoc);
     }
 

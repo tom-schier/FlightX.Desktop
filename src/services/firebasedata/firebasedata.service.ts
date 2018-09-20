@@ -36,6 +36,7 @@ export class FirebaseDataService implements  iLocationService {
                 ap.code = elem.get('code');
                 ap.elevation = elem.get("elevation");
                 ap.latitude = elem.get('latitude');
+                ap.elevation = elem.get('elevation');
                 ap.longitude = elem.get('longitude');
                 ap.locCountry = elem.get('apCountry');
                 locations.push(ap);
@@ -63,6 +64,7 @@ export class FirebaseDataService implements  iLocationService {
                 ap.latitude = elem.get('latitude');
                 ap.locType = elem.get('locType');
                 ap.longitude = elem.get('longitude');
+                ap.elevation = elem.get('elevation');
                 let code = elem.get('apCountry');
                 ap.locCountry = this.countries.findCountry(code);
                 locations.push(ap);
@@ -86,6 +88,8 @@ export class FirebaseDataService implements  iLocationService {
             ap.code = elem.get('code');
             ap.latitude = elem.get('latitude');
             ap.locType = elem.get('locType');
+            ap.elevation = elem.get('elevation');
+            ap.longitude = elem.get('longitude');
             ap.longitude = elem.get('longitude');
             ap.locCountry = elem.get('apCountry');
             return ap;           
@@ -101,6 +105,7 @@ export class FirebaseDataService implements  iLocationService {
             wp.locId = elem.id;
             wp.locName = elem.get('locName');
             wp.code = elem.get('code');
+            wp.elevation = elem.get('elevation');
             wp.latitude = elem.get('latitude');
             wp.longitude = elem.get('longitude');
             wp.locType = elem.get('locType');
@@ -121,6 +126,7 @@ export class FirebaseDataService implements  iLocationService {
             ap.latitude = elem.get('latitude');
             ap.longitude = elem.get('longitude');
             ap.locType = elem.get('locType');
+            ap.elevation = elem.get('elevation');
             ap.locCountry = elem.get('apCountry');
             return ap;           
         }));

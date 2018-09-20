@@ -9,6 +9,7 @@ import { TrackService } from '../../services/track/track.service';
 //  import { Subject }    from 'rxjs/Subject';
 import { Airport, xpLocation } from '../models/airport.model';
 import { XpAirfieldCategory, XpLocationType, XpAirfieldTypes } from '../models/globals.model'
+import { CountryList } from '../../data/mapping/countries';
 
 declare var map: any;
 declare var geocoder: any;
@@ -40,6 +41,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
   airfieldsNearby: Airport[];
   errorMessage: string;
   hideSearchMessage: boolean;
+  countries: CountryList;
   @ViewChild("map") mapElement: any;
 
   constructor(private _trackService: TrackService) {
@@ -51,6 +53,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
     this.that = this;
     this.hideSearchMessage = true;
     this.intialPosition = new google.maps.LatLng(this.lat, this.lng);
+    this.countries = new CountryList();
   }
 
   onSetToCurrent() {
@@ -174,13 +177,44 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
   //     console.log("Found airfields");      
   // }
 
-  addLocationToMap(ap: xpLocation) : google.maps.Marker {
+  getInfoWindoContent(ap: any): string{
+    var st = "";
+    let country = this.countries.findCountry(ap.locCountry);
+      if (ap.elevation != null) {
+        st = '"<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+        '<h3 id="firstHeading" class="firstHeading">' + ap.locName + '</h3>'+
+        '<div id="bodyContent">'+
+        '<p><b>Latitude: </b>' + ap.latitude +
+        '<p><b>Longitude: </b>' + ap.longitude +
+        '<p><b>Elevation: </b>' + ap.elevation +
+        '<img src="/assets/countries/' + country + '.png" class="flag" />';
+        '</div>'+
+        '</div>'
+      }
+      else {
+        st = '"<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+        '<h3 id="firstHeading" class="firstHeading">' + ap.locName + '</h3>'+
+        '<div id="bodyContent">'+
+        '<p><b>Latitude: </b>' + ap.latitude +
+        '<p><b>Longitude: </b>' + ap.longitude +
+        '</div>'+
+        '</div>'
+      }
+      //return ap.code + " : " + ap.locName;
+      return st;
+  }
+
+  addLocationToMap(ap: any) : google.maps.Marker {
     if (ap == null)
       return;
-
+  let contentString = this.getInfoWindoContent(ap);
   var markerTypeBase = "/assets/images/";
     let infowindow = new google.maps.InfoWindow({
-      content: ap.code + " : " + ap.locName
+      content: contentString
     });
     var theIcon;
     theIcon = {
@@ -219,7 +253,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
       icon: theIcon,
       map: this.theMap
     });
-    google.maps.event.addListener(marker, 'mouseover', function () {
+    google.maps.event.addListener(marker, 'click', function () {
       infowindow.open(map, this);
     });
 

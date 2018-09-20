@@ -4,18 +4,6 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Subject } from 'rxjs';
 import { WindDetails } from '../models/weather.model';
 
-// class Comment {
-//     commentSt: string;
-//     constructor(public st: string) {
-//         this.commentSt = st;
-//     }
-// }
-
-// let DIR_IS_VALID = 1;
-// let SPEED_IS_VALID = 2;
-// let ALT_IS_VALID = 4;
-// let FORM_GROUP_IS_VALID = 7;
-
 @Component({
     selector: 'wind-data',
     templateUrl: 'windData.html',
@@ -45,9 +33,7 @@ export class WindDataComponent implements OnInit {
         this._fb = fb;
 
         this.windForm = this._fb.group({
-            // 'speed': ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern("^[0-9][0-9][0-9]$")]],
             'speed': ['', [Validators.required, this.validateWindSpeed]],
-            //  'direction': ['', [Validators.required, Validators.pattern("^[0-3][0-9][0-9]$")]],
             'direction': ['', [Validators.required, this.validateWindDirection]],
             'altitude': ['', [Validators.required]]
         })
@@ -101,7 +87,7 @@ export class WindDataComponent implements OnInit {
             this.stComments.push("Speed is invalid. Must be be a number between 1 and 300");
 
         if (this.windAlreadyExists(model) == true){
-            this.stComments.push("There already is a wind entry for this level");
+            this.stComments.push("There already is a wind entry for this flight level");
             return;
         }
             
@@ -135,7 +121,6 @@ export class WindDataComponent implements OnInit {
         if (speedNumber < 1 || speedNumber > 300)
             return "Speed must be between 1 amd 300";
     }
-
 
     validateWindDirection(c: FormControl) {
         if (isNaN(c.value) == true)

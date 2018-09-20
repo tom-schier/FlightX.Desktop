@@ -77,9 +77,9 @@ export class WeatherService  {
       console.error('There was an error: ' + err);
   }
 
-  //getWindForSector(aSector: number, aAltitude: number) {
-  //    return this.winds.find(wnd => wnd.sector == aSector && wnd.altitude == aAltitude);
-  //}
+  getWindForSector(aSector: number, aAltitude: string) {
+     return this.winds.find(wnd => wnd.sector == aSector && wnd.altitude == aAltitude);
+  }
 
 }
 

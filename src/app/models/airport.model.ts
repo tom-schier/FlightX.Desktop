@@ -1,8 +1,3 @@
-// export class XpLocType {
-//     public static get CAT_AIRFIELD_LOCATION():number { return 1; } 
-//     public static get CAT_WAYPOINT_LOCATION():number { return 2; } 
-//     public static get LOCTYPE_IFR_WAYPOINT():number { return 3; } 
-// }
 
 export class xpLocation {
     locId: string;
@@ -13,25 +8,34 @@ export class xpLocation {
     longitude: number;
     locCountry: string;
     countryId: number;
+    elevation: number;
+}
+
+export class xpTrackingPoint extends xpLocation  {
+    altitude: string;
+
+    constructor(aLoc: xpLocation){
+        super();
+        this.locId = aLoc.locId;
+        this.locType = aLoc.locType;
+        this.latitude = aLoc.latitude;
+        this.longitude = aLoc.longitude;
+        this.code = aLoc.code;
+        this.countryId = aLoc.countryId;
+        this.locCountry = aLoc.locCountry;
+        this.locName = aLoc.locName;
+        this.elevation = aLoc.elevation;
+    }
 }
 
 
 export class Airport extends xpLocation {
-
-    //locId: number;
     AirportID: number;
-    //code: string;
-    //locName: string;
-    //latitude: number;
-    //longitude: number;
-    //apType: string;
     apSource: string ;
     apAddress: string;
     apContact: string;
     apSubType: string;
-    //apCountry: string;
     apState: string;
-    elevation: number;
     apRegion: string;
     apMunicipality: string;
     apScheduledSvc: string;
@@ -42,25 +46,16 @@ export class Airport extends xpLocation {
     apWiki: string;
     apKeywords: string;
     apCategoryId: number;
-    //countryId: number;
 }
 
 export class Waypoint extends xpLocation {
 
-    //locId: number;
     waypointId: number;
-   //// latitude: number;
     longitude: number;
-    //locType: number;
-    //wpId: number;
-   // code: string;
-   // locName: string;
     wpState: string;
     wpTimezone: string;
     wpVariation: number;
     wpVariationDir: string;
-    //wpType: number;
-    //wpCountry: string;
     wpSource: string;
 }
 
