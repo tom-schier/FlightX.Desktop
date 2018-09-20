@@ -164,17 +164,12 @@ export class TrackDataComponent implements OnInit{
         }
     }
 
-    // observableSource = (keyword: any): Observable<xpLocation[]> => {
-
-    //     return this._trackService.getAirportLocationsBySearchString(keyword);
-    // }
     validateLocation(c: FormControl) {
         if (this.isSelected == true)
             return "All OK.";
         else
             return "Please select a location";
     }
-
 
     loadTracks() {
         this.trackRows = this._trackService.tracks;
