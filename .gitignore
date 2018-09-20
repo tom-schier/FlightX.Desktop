@@ -5,6 +5,10 @@
 /tmp
 /out-tsc
 
+# security
+/src/environments
+/src/index.html
+
 # dependencies
 /node_modules
 
