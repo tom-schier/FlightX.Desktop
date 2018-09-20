@@ -184,12 +184,12 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
         st = '"<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
-        '<h3 id="firstHeading" class="firstHeading">' + ap.locName + '</h3>'+
+        '<p><b>' + ap.locName + ' </b> ' +
+        '<img src="/assets/countries/' + country + '.png" class="flag" />' +
         '<div id="bodyContent">'+
         '<p><b>Latitude: </b>' + ap.latitude +
-        '<p><b>Longitude: </b>' + ap.longitude +
-        '<p><b>Elevation: </b>' + ap.elevation +
-        '<img src="/assets/countries/' + country + '.png" class="flag" />';
+        '<br><b>Longitude: </b>' + ap.longitude +
+        '<br><b>Elevation: </b>' + ap.elevation +     
         '</div>'+
         '</div>'
       }
