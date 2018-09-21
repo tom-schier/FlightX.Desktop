@@ -8,6 +8,8 @@ It forms the code base for the app which is running [here](https://xptraining-bf
 The project is an Angular app with a firebase backend. This also use the Firebase authentication methods.
 
 NOTE: You cannot run this locally due to the various keys required for Google. (Sorry, need to get your own)
+You will notice that there is no index.html (removed from Git due to security keys in there).
+The file _index.html can be renamed to index.html.
 
 This application can be used for flight planning calculation, eg tracks, headings, wind corrections, etc.
 It provides to access to a database of airfields worldwide.
