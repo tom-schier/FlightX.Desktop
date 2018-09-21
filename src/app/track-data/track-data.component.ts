@@ -177,10 +177,16 @@ export class TrackDataComponent implements OnInit{
 
     onSelectLocation(event) {
         console.log("in onSelectLocation...")
-       // this.trackForm.controls['waypoint'].setValue(this.selected.locName);
-        this.showList = false;
-        this.isSelected = true;
+        this.showList = false;        
         this.hideNoResultsMsg = true;
+        if (event instanceof xpLocation) {
+            this.isSelected = true;
+            this.selected = event
+        }
+        else {
+            this.isSelected = false;
+        }
+        
     }
 
     UpdateTracks(theTracks: TrackModel[]) {
@@ -226,7 +232,12 @@ export class TrackDataComponent implements OnInit{
         if (isValid == false)
             return;
 
-        this._locService.getAirportByLocationID(model.loc.locId).subscribe(x => this._trackService.AddLocation(x, this.trackForm.controls["alt"].value));     
+        if (!this._trackService.validLocation(model)){
+            this.stComments.push("Invalid location. CAnnot be the same as the last one");
+            return;
+        }
+        this._locService.getAirportByLocationID(model.loc.locId).subscribe(x => this._trackService.AddLocation(x, this.trackForm.controls["alt"].value));   
+            
     }
 
 

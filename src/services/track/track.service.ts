@@ -294,4 +294,14 @@ export class TrackService {
         this.tracks[idx] = aTrack;
         this.obTrackDetails.next(this.tracks);
     }
+
+    validLocation(ev: any): boolean {
+        if (this.waypoints.length == 0)
+            return true;
+        let idx = this.waypoints.length;
+        if (this.waypoints[idx-1].locId == ev.loc.locId)
+            return false;
+        else    
+            return true;
+    }
 }
