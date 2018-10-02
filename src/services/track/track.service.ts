@@ -141,17 +141,22 @@ export class TrackService {
     };
 
     calculateTrack(p1: google.maps.LatLng, p2: google.maps.LatLng): number {
-        let λ1 = this._toRad(p1.lng());
-        let λ2 = this._toRad(p2.lng());
-        let φ1 = this._toRad(p1.lat());
-        let φ2 = this._toRad(p2.lat());
+        let a1 = this._toRad(p1.lng());
+        let a2 = this._toRad(p2.lng());
+        let b1 = this._toRad(p1.lat());
+        let b2 = this._toRad(p2.lat());
 
-        let y = Math.sin(λ2 - λ1) * Math.cos(φ2);
-        let x = Math.cos(φ1) * Math.sin(φ2) -
-            Math.sin(φ1) * Math.cos(φ2) * Math.cos(λ2 - λ1);
+        let y = Math.sin(a2 - a1) * Math.cos(b2);
+        let x = Math.cos(b1) * Math.sin(b2) -
+            Math.sin(b1) * Math.cos(b2) * Math.cos(a2 - a1);
         let brng = this._toDeg(Math.atan2(y, x));
+
+        if ((brng >= 0 && brng <= 90) || (brng >= 180 && brng <= 270) )
+            brng = brng - 180;
+        else
+            brng = brng + 180;   
         if (brng < 0)
-            brng = 360 + brng;
+            brng = 360 + brng;                     
         return Math.round(brng);
     }
 
