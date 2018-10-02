@@ -104,7 +104,10 @@ export class TrackDataComponent implements OnInit{
           .subscribe(data => {
               if (data.length > 2) {
                 this._locService.getAirportLocationsBySearchString(data).subscribe(response =>{
-                    this.searchResult = response
+                    this.searchResult = response;
+                },
+                error => {
+                    console.log("Error in getting data " + error);
                 })
               }
 
