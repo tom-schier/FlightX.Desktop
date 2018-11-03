@@ -16,10 +16,10 @@ import { TestFirebaseComponent } from './test-firebase/test-firebase.component';
 
 export const rootRouterConfig: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
-    { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
     {
-        path: 'main', component: MainComponent, resolve: { data: UserResolver }, children: [
+        path: 'main', component: MainComponent, canActivate: [AuthGuard], resolve: { data: UserResolver }, children: [
             { path: '', component: AircraftDetailsComponent,  },
             { path: 'aircraft', component: AircraftDetailsComponent,  },
             { path: 'flightpath', component: FlightpathComponent,  },

@@ -48,8 +48,16 @@ export class LoginComponent {
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
     .then(res => {
-      this.router.navigate(['/main']);
-    })
+      if (res.length > 0)
+        this.router.navigate(['/main']);
+      else {
+        console.log("Not authorised")
+      }
+    },
+    rejected => {
+      console.log("User not found or no access");
+    }
+    )
   }
 
   tryLogin(value){

@@ -6,6 +6,19 @@ import { from } from 'rxjs';
 import { AngularFirestore } from "angularfire2/firestore";
 import { Injectable } from "@angular/core";
 import { CountryList } from "../../data/mapping/countries";
+import { xpUser } from "src/app/models/xpUser";
+
+// var algoliasearch = require('algoliasearch');
+// var algoliasearch = require('algoliasearch/reactnative');
+// var algoliasearch = require('algoliasearch/lite');
+//  import * as algoliasearch from 'algoliasearch'; // When using TypeScript
+
+// // or just use algoliasearch if you are using a <script> tag
+// // if you are using AMD module loader, algoliasearch will not be defined in window,
+// // but in the AMD modules of the page
+// var client = algoliasearch('9JSHZLXNPH', '495f0235d6acb38da029eaecb9e06406');
+// var index = client.initIndex('your_index_name');
+
 
 @Injectable()
 export class FirebaseDataService implements  iLocationService {
@@ -146,5 +159,29 @@ export class FirebaseDataService implements  iLocationService {
             ap.locCountry = elem.get('apCountry');
             return ap;           
         }));
+    }
+
+    login(email: string): Observable<any> {
+        if (email == "")
+            return null;
+        let qry = this._db.collection("Users").ref          
+            .where("Email", "==", email)
+            .where("Target", "==", "android");
+        let xpUserList = [];
+        return from(qry.get().then(usr => {
+                    usr.forEach(u => {
+                    let ap = new xpUser();
+                    ap.email = u.get('Email');
+                    ap.userName = u.get('UserName')
+                    ap.externalUserID =  u.get('ExternalUserID')
+                    xpUserList.push(ap);
+                });
+                return xpUserList;
+            }, error => {
+                console.log("Error when getting data: " + error);
+                return null;
+            }
+            )
+        );
     }
 }

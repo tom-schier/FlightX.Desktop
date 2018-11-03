@@ -19,4 +19,6 @@ export interface iLocationService {
     getWaypointByLocationID(locId: number): Observable<Waypoint>;
 
     getLocationByLocationID(locId: number): Observable<xpLocation>;
+
+    login(email: string): Observable<any>;
 }
