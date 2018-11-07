@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist\\FlightPlanner",
+    "public": "dist/FlightPlanner",
     "ignore": [
       "firebase.json",
       "**/.*",

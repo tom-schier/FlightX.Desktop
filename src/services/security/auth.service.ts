@@ -57,7 +57,7 @@ export class AuthService {
     var actionCodeSettings = {
       // URL you want to redirect back to. The domain (www.example.com) for this
       // URL must be whitelisted in the Firebase Console.
-      url: 'https://xptraining-bfa66.firebaseapp.com',
+      url: 'https://flightx-171107.firebaseapp.com',
       // This must be true.
       handleCodeInApp: true,
       iOS: {
