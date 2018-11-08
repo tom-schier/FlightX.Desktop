@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development Details
 
-It forms the code base for the app which is running [here](https://xptraining-bfa66.firebaseapp.com). 
+It forms the code base for the app which is running [here](https://flightx-171107.firebaseapp.com). 
 The project is an Angular app with a firebase backend. This also use the Firebase authentication methods.
 
 NOTE: You cannot run this locally due to the various keys required for Google. (Sorry, need to get your own)
