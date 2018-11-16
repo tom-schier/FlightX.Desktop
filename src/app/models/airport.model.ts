@@ -1,5 +1,5 @@
 export class Location {
-    _id: string;
+    _id: any;
     locId: number;
     code: string;
     locType: number;
@@ -23,8 +23,6 @@ export class Location {
     locCategoryId: number;
     locTimezone: string;
     locVariation: number;
-
-    locCountry: string;
 }
 
 export class xpTrackingPoint extends Location  {
@@ -41,8 +39,6 @@ export class xpTrackingPoint extends Location  {
         this.locCountryCode = aLoc.locCountryCode;
         this.locName = aLoc.locName;
         this.elevation = aLoc.elevation;
-
-        this.locCountry = aLoc.locCountry;
     }
 }
 

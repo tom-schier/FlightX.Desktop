@@ -29,7 +29,7 @@
         <div id="waypointEntry" class="form-group row">
             <label for="searchTextInput" class="col-sm-2 col-form-label">Waypoint</label>
             <div class="col-sm-10">
-                <input ngui-auto-complete placeholder="Enter airfield name, code, etc" [list-formatter]="autocompleListFormatter" (valueChanged)="onSelectLocation($event)"
+                <input ngui-auto-complete placeholder="Enter airfield name, code, etc" [list-formatter]="autocompleListFormatter"  (valueChanged)="onSelectLocation($event)"
                     formControlName="loc" id="searchTextInput" display-property-name="locName" [source]="observableSource" 
                     class="form-control" />
             </div>
@@ -61,43 +61,3 @@
         </ul>
     </div>
 </div>
-
-<!-- <div class="container-fluid ">
-        <form [formGroup]="trackForm" (ngSubmit)="onAdd(trackForm.value, trackForm.valid)" class="form-group form-inline" [ngClass]="{'has-error':!trackForm.controls['waypoint'].valid && trackForm.controls['waypoint'].touched, 'has-success':trackForm.controls['waypoint'].valid&& trackForm.controls['waypoint'].touched}"> 
-            <div id="waypointEntry">
-                <label class="col-sm-2">Waypoint</label>
-                <input  ngui-auto-complete
-                placeholder="Enter airfield name, code, etc"
-                formControlName="loc"
-                [source]="observableSource"  
-                (valueChanged)="onSelectLocation($event)"
-                [min-chars]="3"
-                [list-formatter]="autocompleListFormatter"
-                value-property-name="id"
-                display-property-name="locName"
-                class="form-control col-sm-7"/>
-                <div id="altitudeEntry" *ngIf="isSelected" [ngClass]="{'has-error':!trackForm.controls['altitude'].valid && trackForm.controls['altitude'].touched, 'has-success':trackForm.controls['altitude'].valid}">
-                    <label  class="col-sm-2">Altitude</label>
-                    <select formControlName="alt"
-                            data-toggle="tooltip"
-                            data-placement="bootom"
-                            title="Select the altitude for this segment."
-                            [hidden]="trackForm.controls.altitude.valid || (trackForm.controls.altitude.pristine && !submitted)"
-                            class="form-control col-sm-3">
-                        <option *ngFor="let p of altList" [value]="p">{{p}}</option>
-                    </select>
-                </div>            
-                <span><button type="submit" class="form-control btn btn-success col-sm-2" [disabled]="!isSelected">
-                    <i class="fa fa-plus-square xp-form-button"></i>
-                </button></span> 
-                <label [hidden]="!showList || isSelected" >Searching......</label>
-            </div>
-        </form>
-        <div class="container-fluid">
-            <ul>
-                <li *ngFor="let st of stComments">
-                    {{ st }}
-                </li>
-            </ul>
-        </div>
-    </div> -->

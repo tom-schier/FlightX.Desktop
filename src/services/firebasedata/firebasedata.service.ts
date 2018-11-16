@@ -25,12 +25,12 @@ import { CountryList } from "../../data/mapping/countries";
 export class FirebaseDataService implements  iLocationService {
 
     token:  string;
-    countries: CountryList;
+  //  countries: CountryList;
     private _db: AngularFirestore;
 
     constructor(public db: AngularFirestore) {
         this._db = db;
-        this.countries = new CountryList();
+     //   this.countries = new CountryList();
     }
 
     getLocationsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<Location[]> {
@@ -53,7 +53,7 @@ export class FirebaseDataService implements  iLocationService {
                 ap.elevation = elem.get('elevation');
                 ap.longitude = elem.get('longitude');
                 ap.locCountryCode = elem.get('apCountry');
-                ap.locCountry = this.countries.findCountry(ap.locCountryCode);
+               // ap.locCountry = this.countries.findCountry(ap.locCountryCode);
                 locations.push(ap);
             });
             return locations;
@@ -75,7 +75,7 @@ export class FirebaseDataService implements  iLocationService {
             ap.longitude = elem.get('longitude');
             ap.longitude = elem.get('longitude');
             ap.locCountryCode = elem.get('apCountry');
-            ap.locCountry = this.countries.findCountry(ap.locCountryCode);
+          //  ap.locCountry = this.countries.findCountry(ap.locCountryCode);
             return ap;           
         }));
     }
@@ -97,7 +97,7 @@ export class FirebaseDataService implements  iLocationService {
                 ap.longitude = elem.get('longitude');
                 ap.elevation = elem.get('elevation');
                 ap.locCountryCode = elem.get('apCountry');
-                ap.locCountry = this.countries.findCountry(ap.locCountryCode);
+                //ap.locCountry = this.countries.findCountry(ap.locCountryCode);
                 locations.push(ap);
             });
             return locations;
@@ -123,7 +123,7 @@ export class FirebaseDataService implements  iLocationService {
             ap.longitude = elem.get('longitude');
             ap.longitude = elem.get('longitude');
             ap.locCountryCode = elem.get('apCountry');
-            ap.locCountry = this.countries.findCountry(ap.locCountryCode);
+           // ap.locCountry = this.countries.findCountry(ap.locCountryCode);
             return ap;           
         }));
     }

@@ -10,6 +10,7 @@ import {
   RemoteMongoClient,
   AnonymousCredential
 } from "mongodb-stitch-browser-sdk";
+import { CountryList } from 'src/data/mapping/countries';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,34 @@ export class MongoDataService implements iLocationService {
   db: any;
   user: any;
   isLoggedIn: boolean;
+  countries: CountryList;
+
+  dataProj = {
+    _id: {$toString: "$_id"},
+    locId: 1,
+    code: 1,
+    locType: 1,
+    locName: 1,
+    latitude: 1,
+    longitude: 1,
+    locCountryCode: 1,
+    elevation: 1,
+    locSource: 1,
+    locAddress: 1,
+    locContact: 1,
+    locState: 1,
+    locRegion: 1,
+    locMunicipality: 0,
+    locGpsCode: 0,
+    locIATACode: 0,
+    locLocalCode: 0,
+    locHomeLink: 0,
+    locWiki: 0,
+    locKeywords: 0,
+    locCategoryId: 1,
+    locTimezone: 0,
+    locVariation: 0
+  }
 
   constructor() {
 
@@ -32,6 +61,7 @@ export class MongoDataService implements iLocationService {
     }
       , err => { console.log("Error while connecting to Stitch: " + err); }
     );;
+    this.countries = new CountryList();
   }
 
   getLocationsBySearchString(searchString: string, locTYpe: number): Observable<Location[]> {
@@ -46,12 +76,23 @@ export class MongoDataService implements iLocationService {
                       { code: { $regex: re1, $options: 'i' } },
                       { locName: { $regex: re2, $options: 'i' } }
                     ]}
-                , { locType: 1 }
-              ]}, { limit: 100 }).asArray()
-    .then(docs => {
-      console.log("Found docs", docs)
-      console.log("[MongoDB Stitch] Connected to Stitch");
-      return docs;
+                , { locType: locTYpe }
+              ]},  { limit: 100 }).asArray()
+    .then(data => {
+      let locations = [];
+      data.forEach(elem => {
+          let ap = new Location();
+          ap._id = elem._id;
+          ap.locName = elem.locName;
+          ap.code = elem.code;
+          ap.elevation = elem.elevation;
+          ap.latitude = elem.latitude
+          ap.longitude = elem.longitude
+          ap.locCountryCode = elem.locCountryCode
+         // ap.locCountry = this.countries.findCountry(ap.locCountryCode);
+          locations.push(ap);
+      });
+      return locations;
     }).catch(err => {
       console.error(err);
       return [];
@@ -109,9 +150,19 @@ export class MongoDataService implements iLocationService {
       this.db.collection('locations').find({
         _id: objectId
       }).asArray()
-    .then(cnt => {
-      console.log("Count returned", cnt)
-      return cnt;
+    .then(elem => {
+      console.log("Count returned: " + elem)
+      let ap = new Location();
+      if (elem.length > 0) {
+        ap._id = elem[0]._id;
+        ap.locName = elem[0].locName;
+        ap.code = elem[0].code;
+        ap.elevation = elem[0].elevation;
+        ap.latitude = elem[0].latitude
+        ap.longitude = elem[0].longitude
+        ap.locCountryCode = elem[0].locCountryCode
+      }     
+      return ap;
     }).catch(err => {
       console.error(err);
       return [];

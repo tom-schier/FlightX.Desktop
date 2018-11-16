@@ -12,6 +12,7 @@ import { TrackService } from '../../services/track/track.service';
 import { iLocationService } from '../../interfaces/iLocationService';
 import { debounceTime } from 'rxjs/operators';
 import { XpLocationType } from '../models/globals.model';
+import { CountryList } from 'src/data/mapping/countries';
 
 
 export interface Altitude {
@@ -64,12 +65,15 @@ export class TrackDataComponent implements OnInit{
     items: Array<Location>;
     searchResult : Location[];
 
+    countries: CountryList;
+
     constructor(private _trackService: TrackService, private _weatherService: WeatherService, 
          private _acService: AircraftService, private fb: FormBuilder,  @Inject('iLocationService') private _locService: iLocationService)
         {
          
             this.model = new TrackModel();
             this.trackRows = new Array();
+            this.countries = new CountryList();
             this.showList = false;
             this._fb = fb;
             this.trackForm = this._fb.group({
@@ -138,21 +142,18 @@ export class TrackDataComponent implements OnInit{
     }
 
 
-    autocompleListFormatter (data: any) {    
-        let html =   `<img src="/assets/countries/${data.locCountry}.png" class="flag" /><span>${data.locName}  ${data.code}</span>`;
+    autocompleListFormatter =  (data: any) => { 
+        let st = this.countries.findCountry(data.locCountryCode);  
+        let html =   `<img src="/assets/countries/${st}.png" class="flag" /><span>${data.locName}  ${data.code}</span>`;
         this.showList = true;
         return html;
     }
 
     valueFormatter(data: any): string {
-        this.trackForm.controls['loc'].setValue(this.selected);
-        this.showList = false;
-        this.isSelected = true;
-        this.hideNoResultsMsg = true; 
         return data.locName;
     }
     
-    observableSource = (keyword: any): Observable<any[]> => {
+    observableSource = (keyword: any): Observable<Location[]> => {
         if(keyword == null || keyword == "undefined" || keyword == undefined)
             return of([]);
         if (keyword.length < 3)
@@ -180,6 +181,8 @@ export class TrackDataComponent implements OnInit{
         console.log("in onSelectLocation...")
         this.showList = false;        
         this.hideNoResultsMsg = true;
+        // this.isSelected = true;
+        // this.selected = event;
         if (event instanceof Location) {
             this.isSelected = true;
             this.selected = event
@@ -220,7 +223,6 @@ export class TrackDataComponent implements OnInit{
     onSubmit(event) {
         this.submitted = true;
     }
-    active = true;
 
     onAdd(model: any, isValid: boolean) {
 
