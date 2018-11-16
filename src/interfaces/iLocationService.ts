@@ -8,9 +8,9 @@ export interface iLocationService {
 
     getLocationsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<Location[]>;
 
-    getLocationByLocationID(locId: number, locType: number): Observable<Location>;
+    getLocationByLocationID(locId: number, locType: number): Observable<Location[]>;
 
-    getLocationByCode(code: string, locType: number): Observable<Location>;
+    getLocationByCode(code: string, locType: number): Observable<Location[]>;
 
     getLocationById(objectId: string): Observable<Location>;
 

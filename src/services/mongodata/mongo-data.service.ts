@@ -79,6 +79,7 @@ export class MongoDataService implements iLocationService {
                 , { locType: locTYpe }
               ]},  { limit: 100 }).asArray()
     .then(data => {
+      console.log("getLocationsBySearchString: " + data)
       let locations = [];
       data.forEach(elem => {
           let ap = new Location();
@@ -89,7 +90,6 @@ export class MongoDataService implements iLocationService {
           ap.latitude = elem.latitude
           ap.longitude = elem.longitude
           ap.locCountryCode = elem.locCountryCode
-         // ap.locCountry = this.countries.findCountry(ap.locCountryCode);
           locations.push(ap);
       });
       return locations;
@@ -108,37 +108,73 @@ export class MongoDataService implements iLocationService {
                 {longitude: {$lte: northEastPos.lng}},
                 {locType: locType}
             ]}).asArray()
-    .then(cnt => {
-      console.log("Count returned", cnt)
-      return cnt;
+    .then(data => {
+      console.log("getLocationByLocationID: " + data)
+      let locations = [];
+      data.forEach(elem => {
+          let ap = new Location();
+          ap._id = elem._id;
+          ap.locName = elem.locName;
+          ap.code = elem.code;
+          ap.elevation = elem.elevation;
+          ap.latitude = elem.latitude
+          ap.longitude = elem.longitude
+          ap.locCountryCode = elem.locCountryCode
+          locations.push(ap);
+      });
+      return locations;
     }).catch(err => {
       console.error(err);
       return [];
     }));
   }
 
-  getLocationByLocationID(locId: number, locType: number): Observable<Location> {
+  getLocationByLocationID(locId: number, locType: number): Observable<Location[]> {
     return from(
       this.db.collection('locations').find({
         $and: [{locId: locId}, {locType: locType}]
       }).asArray()
-    .then(cnt => {
-      console.log("Count returned", cnt)
-      return cnt;
+    .then(data => {
+      console.log("getLocationByLocationID: " + data)
+      let locations = [];
+      data.forEach(elem => {
+          let ap = new Location();
+          ap._id = elem._id;
+          ap.locName = elem.locName;
+          ap.code = elem.code;
+          ap.elevation = elem.elevation;
+          ap.latitude = elem.latitude
+          ap.longitude = elem.longitude
+          ap.locCountryCode = elem.locCountryCode
+          locations.push(ap);
+      });
+      return locations;
     }).catch(err => {
       console.error(err);
       return [];
     }));
   }
 
-  getLocationByCode(code: string, locType: number): Observable<Location> {
+  getLocationByCode(code: string, locType: number): Observable<Location[]> {
     return from(
       this.db.collection('locations').find({
         $and: [{code: code}, {locType: locType}]
       }).asArray()
-    .then(cnt => {
-      console.log("Count returned", cnt)
-      return cnt;
+    .then(data => {
+      console.log("getLocationByCode: " + data)
+      let locations = [];
+      data.forEach(elem => {
+          let ap = new Location();
+          ap._id = elem._id;
+          ap.locName = elem.locName;
+          ap.code = elem.code;
+          ap.elevation = elem.elevation;
+          ap.latitude = elem.latitude
+          ap.longitude = elem.longitude
+          ap.locCountryCode = elem.locCountryCode
+          locations.push(ap);
+      });
+      return locations;
     }).catch(err => {
       console.error(err);
       return [];
@@ -151,7 +187,7 @@ export class MongoDataService implements iLocationService {
         _id: objectId
       }).asArray()
     .then(elem => {
-      console.log("Count returned: " + elem)
+      console.log("getLocationById: " + elem)
       let ap = new Location();
       if (elem.length > 0) {
         ap._id = elem[0]._id;
