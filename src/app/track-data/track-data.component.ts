@@ -44,7 +44,6 @@ export class TrackDataComponent implements OnInit{
     showList: boolean;
     errorMessage: string;
     stLocation: string;
-    //loc: Location;
     waypoints: Location[];
     mode = 'Observable';
     displayValue: string;
@@ -61,7 +60,6 @@ export class TrackDataComponent implements OnInit{
     private stBtnEditSaveClass: string;
     private stBtnRemoveClass: string;
     searchTerm : FormControl = new FormControl();
-    //items: Array<Airport>;
     items: Array<Location>;
     searchResult : Location[];
 
@@ -240,7 +238,6 @@ export class TrackDataComponent implements OnInit{
         this._locService.getLocationById(model.loc._id).subscribe(x => this._trackService.AddLocation(x, this.trackForm.controls["alt"].value));   
             
     }
-
 
     onRemove(aLoc: xpTrackingPoint) {
         this._trackService.RemoveWaypoint(aLoc);

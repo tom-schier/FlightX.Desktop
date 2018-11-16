@@ -23,8 +23,6 @@ import { AircraftComponent } from './aircraft/aircraft.component';
 import { FlightpathComponent } from './flightpath/flightpath.component';
 import { WeatherComponent } from './weather/weather.component';
 import { MapcontainerComponent } from './mapcontainer/mapcontainer.component';
-import { AgmCoreModule } from '@agm/core';
-import { FirebaseDataService } from '../services/firebasedata/firebasedata.service';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AircraftDetailsComponent } from './aircraft/aircraft-detail.component';
 import { AircraftWeightsComponent } from './aircraft/aircraft-weights.component';
@@ -66,19 +64,15 @@ import { MongoDataService } from 'src/services/mongodata/mongo-data.service';
     BrowserModule,
     BrowserAnimationsModule,
     NguiAutoCompleteModule,
-   // MatButtonModule, MatCheckboxModule, MatMenuModule, MatButtonToggleModule, MatTabsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule,MatSelectModule, MatCardModule,
-    ReactiveFormsModule,
+     ReactiveFormsModule,
     FormsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: false }),
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
+    AngularFirestoreModule,   // imports firebase/firestore, only needed for database features
+    AngularFireAuthModule,    // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
-    // AgmCoreModule.forRoot({
-    //   apiKey: 'AIzaSyDKAmDL4ygUIbM8Sod4vrgV2NTREatolag'
-    // }),
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    AngularFirestoreModule,   // imports firebase/firestore, only needed for database features
+    AngularFireAuthModule,    // imports firebase/auth, only needed for auth features
   ],
   providers: [AuthService, UserService, UserResolver, AuthGuard, AuthService, UserService, UserResolver, AuthGuard,
     {provide: 'iLocationService', useClass: MongoDataService},

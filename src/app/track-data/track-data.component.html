@@ -29,28 +29,25 @@
         <div id="waypointEntry" class="form-group row">
             <label for="searchTextInput" class="col-sm-2 col-form-label">Waypoint</label>
             <div class="col-sm-10">
-                <input ngui-auto-complete placeholder="Enter airfield name, code, etc" [list-formatter]="autocompleListFormatter"  (valueChanged)="onSelectLocation($event)"
-                    formControlName="loc" id="searchTextInput" display-property-name="locName" [source]="observableSource" 
-                    class="form-control" />
+                <input ngui-auto-complete placeholder="Enter airfield name, code, etc" [list-formatter]="autocompleListFormatter"
+                    (valueChanged)="onSelectLocation($event)" formControlName="loc" id="searchTextInput"
+                    display-property-name="locName" [source]="observableSource" class="form-control" />
             </div>
         </div>
         <div id="altitudeEntry" class="form-group row">
 
-                    <label for="altitudeSelection" class="col-sm-2 col-form-label">Altitude</label>
-                    <div class="col-sm-8">
-                        <select id="altitudeSelection" formControlName="alt" data-toggle="tooltip" data-placement="bootom" title="Select the altitude for this segment."
-                            class="form-control">
-                            <option *ngFor="let p of altList" [value]="p">{{p}}</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-2">
-                            <button type="submit" class="btn btn-primary" [disabled]="!isSelected">
-                                <i class="fa fa-plus-square xp-form-button"></i>
-                            </button>
-                        </div>
-<!-- 
-
-            <label [hidden]="!showList || isSelected">Searching......</label> -->
+            <label for="altitudeSelection" class="col-sm-2 col-form-label">Altitude</label>
+            <div class="col-sm-8">
+                <select id="altitudeSelection" formControlName="alt" data-toggle="tooltip" data-placement="bootom"
+                    title="Select the altitude for this segment." class="form-control">
+                    <option *ngFor="let p of altList" [value]="p">{{p}}</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary" [disabled]="!isSelected">
+                    <i class="fa fa-plus-square xp-form-button"></i>
+                </button>
+            </div>
         </div>
     </form>
     <div class="container-fluid">
