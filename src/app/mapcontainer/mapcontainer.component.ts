@@ -7,7 +7,7 @@ import { Component, OnInit, Input, ViewChild, Inject, AfterViewInit } from '@ang
 import { TrackService } from '../../services/track/track.service';
 //  import { Observable }     from 'rxjs/Observable';
 //  import { Subject }    from 'rxjs/Subject';
-import { Airport, xpLocation } from '../models/airport.model';
+import { Location } from '../models/airport.model';
 import { XpAirfieldCategory, XpLocationType, XpAirfieldTypes } from '../models/globals.model'
 import { CountryList } from '../../data/mapping/countries';
 
@@ -38,7 +38,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
   flightPath: google.maps.Polyline;
   mapupdater: number;
   that: any;
-  airfieldsNearby: Airport[];
+  airfieldsNearby: Location[];
   errorMessage: string;
   hideSearchMessage: boolean;
   countries: CountryList;
@@ -179,7 +179,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
 
   getInfoWindoContent(ap: any): string{
     var st = "";
-    let country = this.countries.findCountry(ap.locCountry);
+    let country = this.countries.findCountry(ap.locCountryCode);
       if (ap.elevation != null) {
         st = '"<div id="content">'+
         '<div id="siteNotice">'+
@@ -276,7 +276,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
     return marker;
   }
 
-  setMarkersForAirports(apData: Airport[]) {
+  setMarkersForAirports(apData: Location[]) {
     if (apData == null)
       return;
     var cnt = apData.length;

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { TrackModel } from '../models/track.model';
 import { Aircraft } from '../models/aircraft.model';
-import { xpLocation, xpTrackingPoint } from '../models/airport.model';
+import { Location, xpTrackingPoint } from '../models/airport.model';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { WindDetails } from '../models/weather.model';
 import { WeatherService } from '../../services/weather/weather.service';
@@ -11,6 +11,7 @@ import { Observable, of } from 'rxjs';
 import { TrackService } from '../../services/track/track.service';
 import { iLocationService } from '../../interfaces/iLocationService';
 import { debounceTime } from 'rxjs/operators';
+import { XpLocationType } from '../models/globals.model';
 
 
 export interface Altitude {
@@ -42,8 +43,8 @@ export class TrackDataComponent implements OnInit{
     showList: boolean;
     errorMessage: string;
     stLocation: string;
-    //loc: xpLocation;
-    waypoints: xpLocation[];
+    //loc: Location;
+    waypoints: Location[];
     mode = 'Observable';
     displayValue: string;
     isSelected: boolean;
@@ -52,7 +53,7 @@ export class TrackDataComponent implements OnInit{
     _fb: FormBuilder;
     trackForm: FormGroup;
     stComments: string[];
-    selected: xpLocation;
+    selected: Location;
     wnd: WindDetails;
 
     private stBtnEditDefaultClass: string;
@@ -60,8 +61,8 @@ export class TrackDataComponent implements OnInit{
     private stBtnRemoveClass: string;
     searchTerm : FormControl = new FormControl();
     //items: Array<Airport>;
-    items: Array<xpLocation>;
-    searchResult : xpLocation[];
+    items: Array<Location>;
+    searchResult : Location[];
 
     constructor(private _trackService: TrackService, private _weatherService: WeatherService, 
          private _acService: AircraftService, private fb: FormBuilder,  @Inject('iLocationService') private _locService: iLocationService)
@@ -93,7 +94,7 @@ export class TrackDataComponent implements OnInit{
             this.altList.push('FL100');
             this.isSelected = false;
             this.stLocation = "";
-            this.selected = new xpLocation();
+            this.selected = new Location();
             this.tracks = this._trackService.tracks;
             this.waypoints = this._trackService.waypoints;
 
@@ -103,7 +104,7 @@ export class TrackDataComponent implements OnInit{
           .pipe(debounceTime(400))
           .subscribe(data => {
               if (data.length > 2) {
-                this._locService.getAirportLocationsBySearchString(data).subscribe(response =>{
+                this._locService.getLocationsBySearchString(data, 1).subscribe(response =>{
                     this.searchResult = response
                 })
               }
@@ -137,7 +138,7 @@ export class TrackDataComponent implements OnInit{
     }
 
 
-    autocompleListFormatter (data: any) {
+    autocompleListFormatter (data: any) {    
         let html =   `<img src="/assets/countries/${data.locCountry}.png" class="flag" /><span>${data.locName}  ${data.code}</span>`;
         this.showList = true;
         return html;
@@ -158,7 +159,7 @@ export class TrackDataComponent implements OnInit{
             return of([]);
         if (keyword) {
             this.showList = true;
-            return this._locService.getAirportLocationsBySearchString(keyword);
+            return this._locService.getLocationsBySearchString(keyword, 1);
         } else {
             return of([]);
         }
@@ -179,7 +180,7 @@ export class TrackDataComponent implements OnInit{
         console.log("in onSelectLocation...")
         this.showList = false;        
         this.hideNoResultsMsg = true;
-        if (event instanceof xpLocation) {
+        if (event instanceof Location) {
             this.isSelected = true;
             this.selected = event
         }
@@ -193,7 +194,7 @@ export class TrackDataComponent implements OnInit{
         this.trackRows = theTracks;
     }
 
-    UpdateWaypoints(theWaypoints: xpLocation[]) {
+    UpdateWaypoints(theWaypoints: Location[]) {
         if (theWaypoints.length == 0)
         {
             this.stComments = [];
@@ -211,7 +212,7 @@ export class TrackDataComponent implements OnInit{
         this.selWindspeed = theWinds[0].speed;
     }
 
-    onSelect(item: xpLocation) {
+    onSelect(item: Location) {
         this.stLocation = item.locName;
         this.isSelected = true;
     }
@@ -236,7 +237,7 @@ export class TrackDataComponent implements OnInit{
             this.stComments.push("Invalid location. CAnnot be the same as the last one");
             return;
         }
-        this._locService.getAirportByLocationID(model.loc.locId).subscribe(x => this._trackService.AddLocation(x, this.trackForm.controls["alt"].value));   
+        this._locService.getLocationById(model.loc._id).subscribe(x => this._trackService.AddLocation(x, this.trackForm.controls["alt"].value));   
             
     }
 
@@ -281,8 +282,8 @@ export class TrackDataComponent implements OnInit{
 //   showList: boolean;
 //   errorMessage: string;
 //   stLocation: string;
-//   //loc: xpLocation;
-//   waypoints: xpLocation[];
+//   //loc: Location;
+//   waypoints: Location[];
 //   mode = 'Observable';
 //   displayValue: string;
 //   isSelected: boolean;
@@ -293,17 +294,17 @@ export class TrackDataComponent implements OnInit{
 //   locations: FormGroup;
 //   altitudes: FormGroup;
 //   stComments: string[];
-//   selected: xpLocation;
+//   selected: Location;
 //   wnd: WindDetails;
 //   searchTerm : FormControl = new FormControl();
 //   locList : FormControl = new FormControl();
-//   searchResult : xpLocation[];
+//   searchResult : Location[];
 
 //   private stBtnEditDefaultClass: string;
 //   private stBtnEditSaveClass: string;
 //   private stBtnRemoveClass: string;
 //   //items: Array<Airport>;
-//   items: Array<xpLocation>;
+//   items: Array<Location>;
 
 //   constructor(public _trackService: TrackService, private _weatherService: WeatherService, @Inject('iLocationService') private _locService: iLocationService,
 //        private _acService: AircraftService, private fb: FormBuilder, private _sanitizer: DomSanitizer)
@@ -339,7 +340,7 @@ export class TrackDataComponent implements OnInit{
 //         ]
 //           this.isSelected = false;
 //           this.stLocation = "";
-//           this.selected = new xpLocation();
+//           this.selected = new Location();
 //           this.tracks = this._trackService.tracks;
 //           this.waypoints = this._trackService.waypoints;
 
@@ -430,7 +431,7 @@ export class TrackDataComponent implements OnInit{
 //       }
 //   }
 
-//   // observableSource = (keyword: any): Observable<xpLocation[]> => {
+//   // observableSource = (keyword: any): Observable<Location[]> => {
 
 //   //     return this._trackService.getAirportLocationsBySearchString(keyword);
 //   // }
@@ -458,7 +459,7 @@ export class TrackDataComponent implements OnInit{
 //       this.trackRows = theTracks;
 //   }
 
-//   UpdateWaypoints(theWaypoints: xpLocation[]) {
+//   UpdateWaypoints(theWaypoints: Location[]) {
 //       if (theWaypoints.length == 0)
 //       {
 //           this.stComments = [];
@@ -476,7 +477,7 @@ export class TrackDataComponent implements OnInit{
 //       this.selWindspeed = theWinds[0].speed;
 //   }
 
-//   onSelect(item: xpLocation) {
+//   onSelect(item: Location) {
 //       this.selected = item;
 //       this.stLocation = item.locName;
 //       this.isSelected = true;
@@ -503,7 +504,7 @@ export class TrackDataComponent implements OnInit{
 //   }
 
 
-//   onRemove(aLoc: xpLocation) {
+//   onRemove(aLoc: Location) {
 //       this._trackService.RemoveWaypoint(aLoc);
 //   }
 

@@ -1,62 +1,49 @@
-
-export class xpLocation {
-    locId: string;
+export class Location {
+    _id: string;
+    locId: number;
     code: string;
     locType: number;
     locName: string;
     latitude: number;
     longitude: number;
-    locCountry: string;
-    countryId: number;
+    locCountryCode: string;
     elevation: number;
+    locSource: string;
+    locAddress: string;
+    locContact: string;
+    locState: string;
+    locRegion: string;
+    locMunicipality: string;
+    locGpsCode: string;
+    locIATACode: string;
+    locLocalCode: string;
+    locHomeLink: string;
+    locWiki: string;
+    locKeywords: string;
+    locCategoryId: number;
+    locTimezone: string;
+    locVariation: number;
+
+    locCountry: string;
 }
 
-export class xpTrackingPoint extends xpLocation  {
+export class xpTrackingPoint extends Location  {
+
     altitude: string;
 
-    constructor(aLoc: xpLocation){
+    constructor(aLoc: Location){
         super();
         this.locId = aLoc.locId;
         this.locType = aLoc.locType;
         this.latitude = aLoc.latitude;
         this.longitude = aLoc.longitude;
         this.code = aLoc.code;
-        this.countryId = aLoc.countryId;
-        this.locCountry = aLoc.locCountry;
+        this.locCountryCode = aLoc.locCountryCode;
         this.locName = aLoc.locName;
         this.elevation = aLoc.elevation;
+
+        this.locCountry = aLoc.locCountry;
     }
-}
-
-
-export class Airport extends xpLocation {
-    AirportID: number;
-    apSource: string ;
-    apAddress: string;
-    apContact: string;
-    apSubType: string;
-    apState: string;
-    apRegion: string;
-    apMunicipality: string;
-    apScheduledSvc: string;
-    apGpsCode: string;
-    apIATACode: string;
-    apLocalCode: string;
-    apHomeLink: string;
-    apWiki: string;
-    apKeywords: string;
-    apCategoryId: number;
-}
-
-export class Waypoint extends xpLocation {
-
-    waypointId: number;
-    longitude: number;
-    wpState: string;
-    wpTimezone: string;
-    wpVariation: number;
-    wpVariationDir: string;
-    wpSource: string;
 }
 
 export class ApCategoryId {

@@ -1,22 +1,18 @@
 import { Observable } from 'rxjs';
-import { xpLocation, Airport, Waypoint } from '../app/models/airport.model';
+import { Location } from '../app/models/airport.model';
 import { xpLatLng } from '../app/models/xpMaps';
 
 export interface iLocationService {
 
-    token:  string;
+    getLocationsBySearchString(searchString: string, locTYpe: number): Observable<Location[]>;
 
-    getAirportsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng): Observable<Airport[]>;
+    getLocationsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<Location[]>;
 
-    getAirportsNearByEx(sthWestPos: xpLatLng, northEastPos: xpLatLng): Observable<Airport[]>;
+    getLocationByLocationID(locId: number, locType: number): Observable<Location>;
 
-    getAirportLocationsBySearchString(searchString: string): Observable<xpLocation[]>;
+    getLocationByCode(code: string, locType: number): Observable<Location>;
 
-    getWaypointsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<Waypoint[]>;
+    getLocationById(objectId: string): Observable<Location>;
 
-    getAirportByLocationID(locId: number): Observable<Airport>;
-
-    getWaypointByLocationID(locId: number): Observable<Waypoint>;
-
-    getLocationByLocationID(locId: number): Observable<xpLocation>;
+    getLocationCount(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<number>;
 }
