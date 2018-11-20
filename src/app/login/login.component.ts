@@ -26,7 +26,7 @@ export class LoginComponent {
 
   createForm() {
     this.loginForm = this.fb.group({
-      // email: ['', Validators.required ],
+       email: ['', Validators.required ],
       // password: ['',Validators.required]
     });
   }
@@ -47,8 +47,12 @@ export class LoginComponent {
 
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
-    .then(res => {
+    .then(res => {     
       this.router.navigate(['/main']);
+    }, err => {
+      console.log(err);
+      this.loading = false;
+      this.errorMessage = err.message;      
     })
   }
 
@@ -65,8 +69,8 @@ export class LoginComponent {
     })
   }
 
-  tryRegister(value){
-    this.authService.doRegister(value)
+  tryRegister(){
+    this.authService.doRegister(this.model.email)
     .then(res => {
       this.router.navigate(['/main']);
     }, err => {

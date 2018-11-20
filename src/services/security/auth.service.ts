@@ -70,7 +70,7 @@ export class AuthService {
       }
     };
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().sendSignInLinkToEmail(value.username, actionCodeSettings)
+      firebase.auth().sendSignInLinkToEmail(value, actionCodeSettings)
       .then(res => {
         resolve(res);
       }, err => reject(err))
