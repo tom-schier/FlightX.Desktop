@@ -16,9 +16,13 @@ export class UserResolver implements Resolve<xpUser> {
     return new Promise((resolve, reject) => {
       this.userService.getCurrentUser()
       .then(res => {
-        if (res.length > 0)
-          return resolve(user);
+        if (res.length > 0) {
+          console.log('UserResover user is ' + JSON.stringify(res));
+          return resolve(res);
+        }
+          
         else {
+          console.log('UserResover redirect to login');
           this.router.navigate(['/login']);
           return resolve(null);        
         }
@@ -35,6 +39,7 @@ export class UserResolver implements Resolve<xpUser> {
         //   return resolve(user);
         // }
       }, err => {
+        console.log('UserResover redirect to login');
         this.router.navigate(['/login']);
         return reject(err);
       })

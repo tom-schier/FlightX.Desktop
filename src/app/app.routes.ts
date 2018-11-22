@@ -12,11 +12,12 @@ import { FlightpathComponent } from './flightpath/flightpath.component';
 import { MapcontainerComponent } from './mapcontainer/mapcontainer.component';
 import { AircraftDetailsComponent } from './aircraft/aircraft-detail.component';
 import { FlightPlanComponent } from './flight-plan/flight-plan.component';
+import { EmailSigninComponent } from './email-signin/email-signin.component';
 
 export const rootRouterConfig: Routes = [
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
-    { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
+    { path: '', redirectTo: 'login', pathMatch: 'prefix' },
+    { path: 'login', component: LoginComponent}, 
+    { path: 'register', component: RegisterComponent },
     {
         path: 'main', component: MainComponent, resolve: { data: UserResolver }, children: [
             { path: '', component: AircraftDetailsComponent,  },

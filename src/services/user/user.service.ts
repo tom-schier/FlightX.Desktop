@@ -21,8 +21,7 @@ export class UserService {
     if (email == "")
       return null;
     let qry = this.db.collection("FlightXUsers").ref
-      .where("Email", "==", email)
-      .where("Target", "==", "android");
+      .where("Email", "==", email);
     let xpUserList = [];
     return qry.get().then(usr => {
       usr.forEach(u => {
@@ -43,13 +42,17 @@ export class UserService {
     }
     )
   }
+
   getCurrentUser = ()=> {
     console.log("Checking current user...getCurrentUser()");
     return new Promise<any>((resolve, reject) => {
       var user = firebase.auth().onAuthStateChanged((user) => {
+        console.log("FB user changed. Checking user .." + JSON.stringify(user));
         if (user) {
           
           this.login(user.email).then(u => {
+            console.log("FlightX login array length: " + u.length);
+            console.log("FlightX login returned .." + JSON.stringify(u));
             if (u.length > 0) {
               resolve(u);
             } else {

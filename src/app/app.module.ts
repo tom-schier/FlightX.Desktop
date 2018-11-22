@@ -35,6 +35,7 @@ import { AircraftEntryComponent } from './aircraft/aircraftentry.component';
 import { FlightPlanComponent } from './flight-plan/flight-plan.component';
 import { TestFirebaseComponent } from './test-firebase/test-firebase.component';
 import { MongoDataService } from 'src/services/mongodata/mongo-data.service';
+import { EmailSigninComponent } from './email-signin/email-signin.component';
 
 
 
@@ -58,7 +59,8 @@ import { MongoDataService } from 'src/services/mongodata/mongo-data.service';
     WindDataComponent,
     AircraftEntryComponent,
     FlightPlanComponent,
-    TestFirebaseComponent
+    TestFirebaseComponent,
+    EmailSigninComponent
   ],
   imports: [
     BrowserModule,

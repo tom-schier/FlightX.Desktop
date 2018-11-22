@@ -39,7 +39,7 @@
                     <label for="email">Email</label>
                     <input type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required />
                     <!-- <div *ngIf="f.submitted && !email.valid" class="help-block">Enter email address</div> -->
-                    <button [disabled]="loading" class="btn btn-primary xp-button" (click)="tryRegister()">Login with Email</button>
+                    <button [disabled]="loading" class="btn btn-primary xp-button" (click)="toggleSignIn()">Login with Email</button>
                 </div>
             <div class="form-group">
                 <!-- <button [disabled]="loading" class="btn btn-primary xp-button" (click)="tryLogin(model)">Login</button> -->
