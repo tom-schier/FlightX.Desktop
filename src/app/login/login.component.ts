@@ -34,12 +34,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.createForm();
     this._svc = authService;
     this.loginText = this.LoginTextWhenLoggedOut;
+    this.errorMessageRegister = 'Register with your email address. A link will be forwarded to you  to sign in.'
+    this.errorMessageGoogleLogin = 'Login with your Google account';
+    this.errorMessageLogin = 'Login with your registered user name & password. You can request one.'
   }
 
   ngOnInit(): void {
     const url = window.location.origin + window.location.search;
     this.handleSignIn(url);
-
   }
 
   ngAfterViewInit(): void {
@@ -179,7 +181,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           console.log("Sign in handleSignIn: " + error);
           this.loginText = this.LoginTextWhenLoggedOut;
           //this.errorMessage = "Login with Google or Email";
-          this.errorMessageRegister = "Login with Google or Email";
+          //this.errorMessageRegister = "Register with email";
         });
     }
   }

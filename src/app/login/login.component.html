@@ -1,61 +1,40 @@
-<!-- <h1 class="mat-display-2">Login to FlightPlanner</h1>
-<div>
-  <div>
-    <div>
-      <form [formGroup]="loginForm">
-        <mat-form-field class="example-full-width">
-          <mat-label class="error">Email</mat-label>
-          <input matInput type="email" formControlName="email" class="form-control" placeholder="email address">
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <mat-label class="error">Password</mat-label>
-          <input matInput type="password" class="form-control" formControlName="password" placeholder="password">
-        </mat-form-field>
-        <button mat-raised-button (click)="tryLogin(loginForm.value)" color="primary">XP Login</button>
-      </form>
-    </div>
-  </div>
-  <div>
-    <div>
-      <button mat-raised-button color="primary" (click)="tryGoogleLogin()">Login with Google</button>
-    </div>
-  </div>
-</div> -->
 <div class="row">
-    <div class="col-9">
-        <!-- <h2>{{labelText}}</h2> -->      
+  <div class="col-6">
+    <!-- <h2>{{labelText}}</h2> -->
 
-            <form name="form"  #f="ngForm" class="from-inline xp-form">
-                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
-                    <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
-                </div>
-                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
-                    <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
-                </div>
-                <div class="form-group">
-                  <!-- <button [disabled]="loading" class="btn btn-primary xp-button" (click)="tryLogin(model)">Login</button> -->
-                  <button [disabled]="loading" class="btn btn-primary xp-button" (click)="tryLogin()">Login Existing User</button>
-                </div>
-                <div class="form-group" [ngClass]=" { 'has-error': f.submitted && !email.valid }">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required />
-                    <!-- <div *ngIf="f.submitted && !email.valid" class="help-block">Enter email address</div> -->
-                    <button [disabled]="loading" class="btn btn-primary xp-button" (click)="tryRegister()">{{loginText}}</button>
-                </div>
-            <div class="form-group">
-                <!-- <button [disabled]="loading" class="btn btn-primary xp-button" (click)="tryLogin(model)">Login</button> -->
-                <button [disabled]="loading" class="btn btn-primary xp-button" (click)="tryGoogleLogin()">Login with Google</button>
-            </div>
-            <div>
-              {{errorMessageRegister}}
-            </div>
-        </form>
-    </div>
-    <div class="col-3 xp-form">
-        <img width="300" alt="XP Logo" src="./assets/images/xpLogo.jpg">
-    </div>
+    <form name="form" #f="ngForm" class="col-9">
+      <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel"
+          required />
+        <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+      </div>
+      <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+        <label for="password">Password</label>
+        <input type="password" class="form-control form-inline" name="password" [(ngModel)]="model.password" #password="ngModel"
+          required />
+          <button [disabled]="loading" class="btn btn-primary xp-button form-inline" (click)="tryLogin()">Login Existing User</button>
+          <div class="help-block">{{errorMessageLogin}}</div>
+        <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+      </div>
+      <hr>
+      <div class="form-group form-inline" [ngClass]=" { 'has-error': f.submitted && !email.valid }">
+        <label for="email" class="col-3">Email</label>
+        <input type="email" class="form-control col-5" name="email" [(ngModel)]="model.email" #email="ngModel" required />
+        <!-- <div *ngIf="f.submitted && !email.valid" class="help-block">Enter email address</div> -->
+        <button [disabled]="loading" class="col-3 btn btn-primary xp-button" (click)="tryRegister()">{{loginText}}</button>
+        <div class="help-block">{{errorMessageRegister}}</div>
+      </div>
+      <hr>
+      <div class="form-group">
+        <!-- <button [disabled]="loading" class="btn btn-primary xp-button" (click)="tryLogin(model)">Login</button> --> 
+        <label class="col-3"></label>     
+        <label class="col-5"> {{errorMessageGoogleLogin}}</label>     
+        <button [disabled]="loading" class="col-3 btn btn-primary xp-button" (click)="tryGoogleLogin()">Login with Google</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-3">
+    <img width="600" alt="XP Logo" src="./assets/images/xpLogo.jpg">
+  </div>
 </div>
