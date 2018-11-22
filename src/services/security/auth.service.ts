@@ -12,7 +12,7 @@ export class AuthService {
   ) {
     this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     this.domainUrl = 'https://flightx-171107.firebaseapp.com/';
-    this.domainUrl = 'http://localhost:4200/';
+    //this.domainUrl = 'http://localhost:4200/';
   }
 
   doFacebookLogin() {
