@@ -26,18 +26,6 @@ export class UserResolver implements Resolve<xpUser> {
           this.router.navigate(['/login']);
           return resolve(null);        
         }
-        // if(res.providerData[0].providerId == 'password'){
-        //   user.image = 'http://dsi-vd.github.io/patternlab-vd/images/fpo_avatar.png';
-        //   user.name = res.displayName;
-        //   user.provider = res.providerData[0].providerId;
-        //   return resolve(user);
-        // }
-        // else{
-        //   user.image = res.photoURL;
-        //   user.name = res.displayName;
-        //   user.provider = res.providerData[0].providerId;
-        //   return resolve(user);
-        // }
       }, err => {
         console.log('UserResover redirect to login');
         this.router.navigate(['/login']);
