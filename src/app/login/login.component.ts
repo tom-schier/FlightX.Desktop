@@ -3,6 +3,7 @@ import { AuthService } from '../../services/security/auth.service'
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/services/user/user.service';
+import {Spinner} from 'spin.js';
 
 @Component({
   selector: 'page-login',

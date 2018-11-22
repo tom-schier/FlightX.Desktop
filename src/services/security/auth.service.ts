@@ -59,7 +59,7 @@ export class AuthService {
 
   doSendEmailLoginLink(email) {
     var actionCodeSettings = {
-      'url': 'http://localhost:4200', // Here we redirect back to this same page.
+      'url': 'https://flightx-171107.firebaseapp.com/', // Here we redirect back to this same page.
       'handleCodeInApp': true // This must be true.
     };
 
@@ -85,7 +85,7 @@ export class AuthService {
     var actionCodeSettings = {
       // URL you want to redirect back to. The domain (www.example.com) for this
       // URL must be whitelisted in the Firebase Console.
-      url: 'http://localhost:4200/',
+      url: 'https://flightx-171107.firebaseapp.com/',
       // This must be true.
       handleCodeInApp: true,
       iOS: {
