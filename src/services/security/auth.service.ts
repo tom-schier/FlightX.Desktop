@@ -11,8 +11,8 @@ export class AuthService {
     public afAuth: AngularFireAuth
   ) {
     this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    this.domainUrl = 'https://flightx-171107.firebaseapp.com/';
-    //this.domainUrl = 'http://localhost:4200/';
+    //this.domainUrl = 'https://flightx-171107.firebaseapp.com/';
+    this.domainUrl = 'http://localhost:4200/';
   }
 
   doFacebookLogin() {

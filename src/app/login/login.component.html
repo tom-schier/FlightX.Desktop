@@ -1,17 +1,17 @@
-<div class="row">
+<div class="row container">
     <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
       <p style="font-size: 20px; color: white">Logging in...</p>
     </ngx-spinner>
-      <div calss="row">
+
         <form name="form" #f="ngForm" class="col-9">
           <hr>
-          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+          <div class="form-group" >
             <label for="username">Username</label>
             <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel"
               required />
             <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
           </div>
-          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+          <div class="form-group" >
             <label for="password">Password</label>
             <input type="password" class="form-control form-inline" name="password" [(ngModel)]="model.password"
               #password="ngModel" required />
@@ -21,7 +21,7 @@
             <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
           </div>
           <hr>
-          <div class="form-group form-inline" [ngClass]=" { 'has-error': f.submitted && !email.valid }">
+          <div class="form-group form-inline">
             <label for="email" class="col-3">Email</label>
             <input type="email" class="form-control col-5" name="email" [(ngModel)]="model.email" #email="ngModel"
               required />
@@ -38,7 +38,6 @@
               Google</button>
           </div>
         </form>
-      </div>
       <div class="col-3">
         <img width="600" alt="XP Logo" src="./assets/images/xpLogo.jpg">
       </div>
