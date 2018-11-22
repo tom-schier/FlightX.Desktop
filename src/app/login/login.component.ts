@@ -1,9 +1,31 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/security/auth.service'
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/services/user/user.service';
-import {Spinner} from 'spin.js';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+
+var opts = {
+  lines: 13, // The number of lines to draw
+  length: 38, // The length of each line
+  width: 17, // The line thickness
+  radius: 45, // The radius of the inner circle
+  scale: 1, // Scales overall size of the spinner
+  corners: 1, // Corner roundness (0..1)
+  color: '#ffffff', // CSS color or array of colors
+  fadeColor: 'transparent', // CSS color or array of colors
+  speed: 1, // Rounds per second
+  rotate: 0, // The rotation offset
+  animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
+  direction: 1, // 1: clockwise, -1: counterclockwise
+  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  className: 'spinner', // The CSS class to assign to the spinner
+  top: '50%', // Top position relative to parent
+  left: '50%', // Left position relative to parent
+  shadow: '0 0 1px transparent', // Box-shadow for the lines
+  position: 'absolute' // Element positioning
+};
 
 @Component({
   selector: 'page-login',
@@ -23,16 +45,25 @@ export class LoginComponent implements OnInit, AfterViewInit {
   _svc: AuthService;
   loginText: string;
 
+
+  public loginInProgress: boolean;
+  public monkey: number;
+
   LoginTextWhenLoggedOut = 'Register with email';
   LoginTextWhenLoggedIn = 'Try Login';
+
 
   constructor(
     public authService: AuthService,
     private userSvc: UserService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public spinner: NgxSpinnerService
   ) {
+
+    this.loginForm
     this.createForm();
+   
     this._svc = authService;
     this.loginText = this.LoginTextWhenLoggedOut;
     this.errorMessageRegister = 'Register with your email address. A link will be forwarded to you  to sign in.'
@@ -42,7 +73,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     const url = window.location.origin + window.location.search;
-    this.handleSignIn(url);
+    this.handleSignIn(url);     
   }
 
   ngAfterViewInit(): void {
@@ -51,7 +82,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   createForm() {
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
-      // password: ['',Validators.required]
+      password: ['',Validators.required]
     });
   }
 
@@ -75,20 +106,22 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/main']);
       }, err => {
         console.log(err);
-        // this.loading = false;
         this.errorMessageGoogleLogin = err.message;
       })
   }
 
   tryLogin() {
     // this.loading = true;
+    this.spinner.show();
     this._svc.doLogin(this.model)
       .then(res => {
         //   this.loading = false;
-        this.router.navigate(['/main']);
+        this.router.navigate(['/main']).then(ret => {
+          this.spinner.hide();
+        }, err => {this.spinner.hide();});
       }, err => {
         console.log(err);
-        //  this.loading = false;
+        this.spinner.hide();
         this.errorMessageLogin = err.message;
       })
   }
@@ -137,7 +170,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
 
-  handleSignIn(url: string) {
+  handleSignIn = (url: string) => {
+    this.spinner.show();
     //check if I am coming from an email sign in link
     if (this._svc.afAuth.auth.isSignInWithEmailLink(url)) {
       var email = localStorage.getItem('emailForSignIn');
@@ -145,6 +179,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       if (email) {
         this.authService.doCompleteSignInViaEmail(email, url).then((result) => {
           console.log("in handleSigneId " + result);
+          
           if (history && history.replaceState) {
             window.history.replaceState({}, document.title, url.split('?')[0]);
           }
@@ -156,30 +191,49 @@ export class LoginComponent implements OnInit, AfterViewInit {
           console.log("in handleSigneId user object: " + user);
           var isNewUser = result.additionalUserInfo.isNewUser;
           console.log("in handleSigneId isNewUser: " + isNewUser);
-          this.router.navigate(['/main/aircraft']);
+          
+          //this.loginInProgress = false;
+          this.router.navigate(['/main/aircraft']).then(ret => {
+            this.spinner.hide();
+          }, err => {
+            this.spinner.hide();
+          });
           console.log(result)
         }, (error) => {
           console.log("ERROR in handleSigneId user object: " + error);
+          this.spinner.hide();
+          //this.loginInProgress = false;
           this.errorMessageRegister = "ERROR in handleSigneId user object: " + error;
         });
       }
     }
     else {
       console.log('Not a sign in via email link' + url);
+      //this.loginInProgress = true;
+      //this.spinner.show();
       this.userSvc.getCurrentUser().then(res => {
+        
         if (res.length > 0) {
           console.log('toggleSignIn user is ' + JSON.stringify(res));
           this.loginText = this.LoginTextWhenLoggedIn;
-          this.router.navigate(['/main']);
+          this.router.navigate(['/main']).then(ret => {
+              this.spinner.hide();
+          }, err => {this.spinner.hide();});
+          //this.spinner.hide();
         }
         else {
           console.log('No user logged in  yet');
           this.loginText = this.LoginTextWhenLoggedOut;
+          this.spinner.hide();
         };
+        
+        //this.loginInProgress = false;
       }
         ,
         error => {
           console.log("Sign in handleSignIn: " + error);
+          this.spinner.hide();
+          //this.loginInProgress = false;
           this.loginText = this.LoginTextWhenLoggedOut;
           //this.errorMessage = "Login with Google or Email";
           //this.errorMessageRegister = "Register with email";

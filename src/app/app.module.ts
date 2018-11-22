@@ -36,8 +36,7 @@ import { FlightPlanComponent } from './flight-plan/flight-plan.component';
 import { TestFirebaseComponent } from './test-firebase/test-firebase.component';
 import { MongoDataService } from 'src/services/mongodata/mongo-data.service';
 import { EmailSigninComponent } from './email-signin/email-signin.component';
-
-
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -66,7 +65,8 @@ import { EmailSigninComponent } from './email-signin/email-signin.component';
     BrowserModule,
     BrowserAnimationsModule,
     NguiAutoCompleteModule,
-     ReactiveFormsModule,
+    ReactiveFormsModule,
+    NgxSpinnerModule,
     FormsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: false }),
     AngularFireModule.initializeApp(environment.firebase),

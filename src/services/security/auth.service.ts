@@ -5,11 +5,14 @@ import * as firebase from 'firebase/app';
 @Injectable()
 export class AuthService {
 
+  domainUrl: string;
 
   constructor(
     public afAuth: AngularFireAuth
   ) {
     this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    this.domainUrl = 'https://flightx-171107.firebaseapp.com/';
+    this.domainUrl = 'http://localhost:4200/';
   }
 
   doFacebookLogin() {
@@ -56,10 +59,9 @@ export class AuthService {
     })
   }
 
-
   doSendEmailLoginLink(email) {
     var actionCodeSettings = {
-      'url': 'https://flightx-171107.firebaseapp.com/', // Here we redirect back to this same page.
+      'url': this.domainUrl, // Here we redirect back to this same page.
       'handleCodeInApp': true // This must be true.
     };
 
@@ -85,7 +87,7 @@ export class AuthService {
     var actionCodeSettings = {
       // URL you want to redirect back to. The domain (www.example.com) for this
       // URL must be whitelisted in the Firebase Console.
-      url: 'https://flightx-171107.firebaseapp.com/',
+      url: this.domainUrl,
       // This must be true.
       handleCodeInApp: true,
       iOS: {
@@ -126,7 +128,5 @@ export class AuthService {
       }
     });
   }
-
-
 
 }
