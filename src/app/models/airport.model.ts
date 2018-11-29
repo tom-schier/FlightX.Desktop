@@ -1,4 +1,4 @@
-export class Location {
+export class XpLocation {
     _id: any;
     locId: number;
     code: string;
@@ -23,13 +23,14 @@ export class Location {
     locCategoryId: number;
     locTimezone: string;
     locVariation: number;
+    apCountry: string;
 }
 
-export class xpTrackingPoint extends Location  {
+export class xpTrackingPoint extends XpLocation  {
 
     altitude: string;
 
-    constructor(aLoc: Location){
+    constructor(aLoc: XpLocation){
         super();
         this.locId = aLoc.locId;
         this.locType = aLoc.locType;
@@ -41,14 +42,13 @@ export class xpTrackingPoint extends Location  {
         this.elevation = aLoc.elevation;
     }
 }
-
-export class ApCategoryId {
-    static SMALL_AIRPORT: number = 1;
+export class XpAirfieldTypes {
+    static SMALL_AIRPORT: number = 4;
     static MEDIUM_AIRPORT: number = 2;
-    static LARGE_AIRPORT: number = 3;
-    static CLOSED: number = 4;
-    static SEAPLANE_BASE: number = 5;
-    static HELIPORT: number = 6;
-    static BALLOONPORT: number = 7;
+    static LARGE_AIRPORT: number = 1;
+    static CLOSED: number = 64;
+    static SEAPLANE_BASE: number = 16;
+    static HELIPORT: number = 8;
+    static BALLOONPORT: number = 32;
 }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { TrackModel } from '../models/track.model';
 import { Aircraft } from '../models/aircraft.model';
-import { Location, xpTrackingPoint } from '../models/airport.model';
+import { XpLocation, xpTrackingPoint } from '../models/airport.model';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { WindDetails } from '../models/weather.model';
 import { WeatherService } from '../../services/weather/weather.service';
@@ -44,7 +44,7 @@ export class TrackDataComponent implements OnInit{
     showList: boolean;
     errorMessage: string;
     stLocation: string;
-    waypoints: Location[];
+    waypoints: XpLocation[];
     mode = 'Observable';
     displayValue: string;
     isSelected: boolean;
@@ -53,15 +53,15 @@ export class TrackDataComponent implements OnInit{
     _fb: FormBuilder;
     trackForm: FormGroup;
     stComments: string[];
-    selected: Location;
+    selected: XpLocation;
     wnd: WindDetails;
 
     private stBtnEditDefaultClass: string;
     private stBtnEditSaveClass: string;
     private stBtnRemoveClass: string;
     searchTerm : FormControl = new FormControl();
-    items: Array<Location>;
-    searchResult : Location[];
+    items: Array<XpLocation>;
+    searchResult : XpLocation[];
 
     countries: CountryList;
 
@@ -96,7 +96,7 @@ export class TrackDataComponent implements OnInit{
             this.altList.push('FL100');
             this.isSelected = false;
             this.stLocation = "";
-            this.selected = new Location();
+            this.selected = new XpLocation();
             this.tracks = this._trackService.tracks;
             this.waypoints = this._trackService.waypoints;
 
@@ -151,7 +151,7 @@ export class TrackDataComponent implements OnInit{
         return data.locName;
     }
     
-    observableSource = (keyword: any): Observable<Location[]> => {
+    observableSource = (keyword: any): Observable<XpLocation[]> => {
         if(keyword == null || keyword == "undefined" || keyword == undefined)
             return of([]);
         if (keyword.length < 3)
@@ -179,7 +179,7 @@ export class TrackDataComponent implements OnInit{
         console.log("in onSelectLocation...")
         this.showList = false;        
         this.hideNoResultsMsg = true;
-        if (event instanceof Location) {
+        if (event instanceof XpLocation) {
             this.isSelected = true;
             this.selected = event
         }
@@ -193,7 +193,7 @@ export class TrackDataComponent implements OnInit{
         this.trackRows = theTracks;
     }
 
-    UpdateWaypoints(theWaypoints: Location[]) {
+    UpdateWaypoints(theWaypoints: XpLocation[]) {
         if (theWaypoints.length == 0)
         {
             this.stComments = [];
@@ -211,7 +211,7 @@ export class TrackDataComponent implements OnInit{
         this.selWindspeed = theWinds[0].speed;
     }
 
-    onSelect(item: Location) {
+    onSelect(item: XpLocation) {
         this.stLocation = item.locName;
         this.isSelected = true;
     }

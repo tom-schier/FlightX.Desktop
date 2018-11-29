@@ -1,18 +1,20 @@
 import { Observable } from 'rxjs';
-import { Location } from '../app/models/airport.model';
+import { XpLocation } from '../app/models/airport.model';
 import { xpLatLng } from '../app/models/xpMaps';
+
+
 
 export interface iLocationService {
 
-    getLocationsBySearchString(searchString: string, locTYpe: number): Observable<Location[]>;
+    getLocationsBySearchString(searchString: string, locType: number, locCategory?: number): Observable<XpLocation[]>;
 
-    getLocationsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<Location[]>;
+    getLocationsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number, locCategory?: number): Observable<XpLocation[]>;
 
-    getLocationByLocationID(locId: number, locType: number): Observable<Location[]>;
+    getLocationByLocationID(locId: number, locType: number): Observable<XpLocation[]>;
 
-    getLocationByCode(code: string, locType: number): Observable<Location[]>;
+    getLocationByCode(code: string, locType: number): Observable<XpLocation[]>;
 
-    getLocationById(objectId: string): Observable<Location>;
+    getLocationById(objectId: any): Observable<XpLocation>;
 
-    getLocationCount(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<number>;
+    getLocationCount(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number, locCategory?: number): Observable<number>;
 }

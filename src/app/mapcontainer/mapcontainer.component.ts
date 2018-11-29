@@ -7,7 +7,7 @@ import { Component, OnInit, Input, ViewChild, Inject, AfterViewInit } from '@ang
 import { TrackService } from '../../services/track/track.service';
 //  import { Observable }     from 'rxjs/Observable';
 //  import { Subject }    from 'rxjs/Subject';
-import { Location } from '../models/airport.model';
+import { XpLocation } from '../models/airport.model';
 import { XpAirfieldCategory, XpLocationType, XpAirfieldTypes } from '../models/globals.model'
 import { CountryList } from '../../data/mapping/countries';
 
@@ -38,7 +38,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
   flightPath: google.maps.Polyline;
   mapupdater: number;
   that: any;
-  airfieldsNearby: Location[];
+  airfieldsNearby: XpLocation[];
   errorMessage: string;
   hideSearchMessage: boolean;
   countries: CountryList;
@@ -67,7 +67,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
         };
 
         infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
+        infoWindow.setContent('XpLocation found.');
         this.theMap.setCenter(pos);
       }, () => {
         this.handleLocationError(true, infoWindow, this.theMap.getCenter());
@@ -118,7 +118,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
           });
 
           infoWindow.setPosition(pos);
-          infoWindow.setContent('Location found.');
+          infoWindow.setContent('XpLocation found.');
           this.theMap.setCenter(pos);
           this.addMarker(pos);
         }, () => {
@@ -276,7 +276,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
     return marker;
   }
 
-  setMarkersForAirports(apData: Location[]) {
+  setMarkersForAirports(apData: XpLocation[]) {
     if (apData == null)
       return;
     var cnt = apData.length;

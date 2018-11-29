@@ -1,23 +1,58 @@
 import { iLocationService } from "../../interfaces/iLocationService";
 import { Observable } from "rxjs";
 import { xpLatLng } from "../../app/models/xpMaps";
-import { Location } from "../../app/models/airport.model";
+import { XpLocation } from "../../app/models/airport.model";
 import { from } from 'rxjs';
 import { AngularFirestore } from "angularfire2/firestore";
 import { Injectable } from "@angular/core";
+import { CountryList } from "src/data/mapping/countries";
 
 
 @Injectable()
 export class FirebaseDataService implements iLocationService {
 
+    countries: CountryList;
+
     private _db: AngularFirestore;
 
     constructor(public db: AngularFirestore) {
         this._db = db;
+        this.countries = new CountryList();
     }
 
-    getLocationsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<Location[]> {
+    private createXpLocation(elem: any): XpLocation {
+        let loc = new XpLocation();
+        loc._id = elem._id;
+        loc._id = elem.id;
+        loc.locId = elem.get('locId');
+        loc.locName = elem.get('locName');
+        loc.code = elem.get('code');
+        loc.latitude = elem.get('latitude');
+        loc.locType = elem.get('locType');
+        loc.longitude = elem.get('longitude');
+        loc.elevation = elem.get('elevation');
+        loc.locCountryCode = elem.get('apCountry');
+        loc.locCategoryId = elem.get('apCategoryId');
+        loc.apCountry = this.countries.findCountry(elem.locCountryCode);
+        return loc;
+    }
 
+    getLocationsBySearchString(searchString: string, locType: number, locCategory?: number): Observable<XpLocation[]> {
+        if (searchString == "")
+            return null;
+        let qry = this._db.collection("Airports").ref.where("locName", ">=", searchString).orderBy("locName").limit(10);;
+        return from(qry.get().then(data => {
+            let locations = [];
+            data.forEach(elem => {
+                let ap = new XpLocation();
+                ap = this.createXpLocation(elem);
+                locations.push(ap);
+            });
+            return locations;
+        }));
+    }
+
+    getLocationsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number, locCategory?: number): Observable<XpLocation[]> {
         let qry = this._db.collection("Airports").ref
             .where("longitude", "<", sthWestPos.lng)
             .where("longitude", ">", northEastPos.lng)
@@ -27,68 +62,14 @@ export class FirebaseDataService implements iLocationService {
         return from(qry.get().then(data => {
             let locations = [];
             data.forEach(elem => {
-                let ap = new Location();
-                ap._id = elem.id;
-                ap.locName = elem.get('locName');
-                ap.code = elem.get('code');
-                ap.elevation = elem.get("elevation");
-                ap.latitude = elem.get('latitude');
-                ap.elevation = elem.get('elevation');
-                ap.longitude = elem.get('longitude');
-                ap.locCountryCode = elem.get('apCountry');
+                let ap = new XpLocation();
+                ap = this.createXpLocation(elem);
                 locations.push(ap);
             });
             return locations;
         }));
     }
-
-    getLocationById(objectId: string) {
-        if (objectId == null)
-            return null;
-        let qry = this._db.collection("Airports").ref.doc(objectId);
-        return from(qry.get().then(elem => {
-            let ap = new Location();
-            ap._id = elem.id;
-            ap.locName = elem.get('locName');
-            ap.code = elem.get('code');
-            ap.latitude = elem.get('latitude');
-            ap.locType = elem.get('locType');
-            ap.elevation = elem.get('elevation');
-            ap.longitude = elem.get('longitude');
-            ap.longitude = elem.get('longitude');
-            ap.locCountryCode = elem.get('apCountry');
-            return ap;
-        }));
-    }
-
-    getLocationsBySearchString(searchString: string, locType: number): Observable<Location[]> {
-        if (searchString == "")
-            return null;
-        let qry = this._db.collection("Airports").ref.where("locName", ">=", searchString).orderBy("locName").limit(10);;
-        return from(qry.get().then(data => {
-            let locations = [];
-            data.forEach(elem => {
-                let ap = new Location();
-                ap._id = elem.id;
-                ap.locId = elem.get('locId');
-                ap.locName = elem.get('locName');
-                ap.code = elem.get('code');
-                ap.latitude = elem.get('latitude');
-                ap.locType = elem.get('locType');
-                ap.longitude = elem.get('longitude');
-                ap.elevation = elem.get('elevation');
-                ap.locCountryCode = elem.get('apCountry');
-                locations.push(ap);
-            });
-            return locations;
-        }));
-    }
-
-    getWaypointsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<Location[]> {
-        return null;
-    }
-
-    getLocationByLocationID(locId: number, locType: number): Observable<Location[]> {
+    getLocationByLocationID(locId: number, locType: number): Observable<XpLocation[]> {
         if (locId == null)
             return null;
         let qry = this._db.collection("Airports").ref.doc(locId.toString());
@@ -96,25 +77,57 @@ export class FirebaseDataService implements iLocationService {
             console.log("getLocationByLocationID: " + elem)
             let locations = [];
 
-            let ap = new Location();
-            ap._id = elem.id;
-            ap.locName = elem.get('locName');
-            ap.code = elem.get('code');
-            ap.elevation = elem.get('elevation');
-            ap.latitude = elem.get('latitude');
-            ap.longitude = elem.get('longitude');
-            ap.locCountryCode = elem.get('apCountry');
+            let ap = new XpLocation();
+            ap = this.createXpLocation(elem);
             locations.push(ap);
 
             return locations;
         }));
     }
-
-    getLocationByCode(code: string): Observable<Location[]> {
-        return null;
+    getLocationByCode(code: string, locType: number): Observable<XpLocation[]> {
+        throw new Error("Method not implemented.");
     }
 
-    getLocationCount(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<number> {
-        return null;
+
+    getLocationById(objectId: string): Observable<XpLocation> {
+        //let qry = this._db.collection("Airports").ref.where("_id", "==", objectId);
+        let qry = this._db.collection("Airports/"+objectId).ref;
+        return from(qry.get().then(elem => {
+
+            let ap = new XpLocation();
+            if (elem.size > 0) {
+                ap._id = elem[0]._id;
+                ap.locName = elem[0].locName;
+                ap.code = elem[0].code;
+                ap.elevation = elem[0].elevation;
+                ap.latitude = elem[0].latitude
+                ap.longitude = elem[0].longitude
+                ap.locCountryCode = elem[0].locCountryCode
+            }
+            return ap;
+        })
+        )
+        // .then(elem => {
+        //   console.log("getLocationById: " + elem)
+        //   let ap = new XpLocation();
+        //   if (elem.length > 0) {
+        //     ap._id = elem[0]._id;
+        //     ap.locName = elem[0].locName;
+        //     ap.code = elem[0].code;
+        //     ap.elevation = elem[0].elevation;
+        //     ap.latitude = elem[0].latitude
+        //     ap.longitude = elem[0].longitude
+        //     ap.locCountryCode = elem[0].locCountryCode
+        //   }     
+        //   return ap;
+        // }).catch(err => {
+        //   console.error(err);
+        //   return [];
+        // }));
+    }
+
+
+    getLocationCount(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number, locCategory?: number): Observable<number> {
+        throw new Error("Method not implemented.");
     }
 }

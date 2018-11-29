@@ -1,6 +1,6 @@
 import { Injectable} from '@angular/core';
 import { TrackModel } from '../../app/models/track.model';
-import { Location, xpTrackingPoint } from '../../app/models/airport.model';
+import { XpLocation, xpTrackingPoint } from '../../app/models/airport.model';
 import { Aircraft } from '../../app/models/aircraft.model';
 import { WindDetails } from '../../app/models/weather.model';
 import { BackEndUrl } from '../../app/models/globals.model';
@@ -61,7 +61,7 @@ export class TrackService {
         this.selectedAircraft = theAircraft;
     }
 
-    AddLocation(aLoc: Location, altitude: string) {
+    AddLocation(aLoc: XpLocation, altitude: string) {
         if (aLoc == null)
             return;
         
@@ -75,7 +75,7 @@ export class TrackService {
     }
 
     updateTracks() {
-        let lastLoc: Location;
+        let lastLoc: XpLocation;
         let idx = 0;
         this.totalDistance = 0;
         this.totalTime = 0;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { xpLatLng } from "../../app/models/xpMaps";
-import { Location } from "../../app/models/airport.model";
+import { XpLocation } from "../../app/models/airport.model";
 import { from } from 'rxjs';
 import { iLocationService } from "../../interfaces/iLocationService";
 
@@ -15,7 +15,7 @@ import { CountryList } from 'src/data/mapping/countries';
 @Injectable({
   providedIn: 'root'
 })
-export class MongoDataService implements iLocationService {
+export class MongoDataService implements iLocationService{
 
   client: any;
   db: any;
@@ -64,63 +64,83 @@ export class MongoDataService implements iLocationService {
     this.countries = new CountryList();
   }
 
-  getLocationsBySearchString(searchString: string, locTYpe: number): Observable<Location[]> {
-    let st1 = ".*" + searchString + ".*"
-    let st2 = ".*" + searchString + ".*"
-    var re1 = new RegExp(st1);
-    var re2 = new RegExp(st2);
-    return from(
-      this.db.collection('locations').find({ 
-        $and: [
-                { $or: [
-                      { code: { $regex: re1, $options: 'i' } },
-                      { locName: { $regex: re2, $options: 'i' } }
-                    ]}
-                , { locType: locTYpe }
-              ]},  { limit: 100 }).asArray()
-    .then(data => {
-      console.log("getLocationsBySearchString: " + data)
-      let locations = [];
-      data.forEach(elem => {
-          let ap = new Location();
-          ap._id = elem._id;
-          ap.locName = elem.locName;
-          ap.code = elem.code;
-          ap.elevation = elem.elevation;
-          ap.latitude = elem.latitude
-          ap.longitude = elem.longitude
-          ap.locCountryCode = elem.locCountryCode
-          locations.push(ap);
-      });
-      return locations;
-    }).catch(err => {
-      console.error(err);
-      return [];
-    }));
-  }
-
-  getLocationsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<Location[]> {
-    return from(
-      this.db.collection('locations').find({
+  private getQueryForGeoFenceRange(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number, locCategory?: number): any {
+    let query = {};
+    if (locCategory) {
+      query = {
+        $and: [ { latitude: {$gte: sthWestPos.lat}},
+                {longitude: {$gte: sthWestPos.lng}},
+                {latitude: {$lte: northEastPos.lat}},
+                {longitude: {$lte: northEastPos.lng}},
+                {locType: locType},
+                {locCategoryId: locCategory}
+            ]};
+    } else {
+      query = {
         $and: [ { latitude: {$gte: sthWestPos.lat}},
                 {longitude: {$gte: sthWestPos.lng}},
                 {latitude: {$lte: northEastPos.lat}},
                 {longitude: {$lte: northEastPos.lng}},
                 {locType: locType}
-            ]}).asArray()
+            ]};
+    }
+    return query; 
+  }
+
+  private createXpLocation(elem: any) : XpLocation {
+    let loc = new XpLocation();
+    loc._id = elem._id;
+    loc.locId = elem.locId;
+    loc.locName = elem.locName;
+    loc.code = elem.code;
+    loc.locType = elem.locType;
+    loc.elevation = elem.elevation;
+    loc.latitude = elem.latitude;
+    loc.longitude = elem.longitude;
+    loc.locCountryCode = elem.locCountryCode;
+    loc.locCategoryId = elem.locCategoryId;
+    loc.apCountry = this.countries.findCountry(elem.locCountryCode); 
+    return loc;
+  }
+
+  getLocationsBySearchString(searchString: string, locType: number, locCategory?: number): Observable<XpLocation[]> {
+
+    let st1 = ".*" + searchString + ".*"
+    let st2 = ".*" + searchString + ".*"
+    var re1 = new RegExp("^" + st1.toLowerCase(), "i");
+    var re2 = new RegExp("^" + st2.toLowerCase(), "i");
+    let query = {};
+    if (locCategory) {
+      query = { 
+        $and: [
+                { $or: [
+                      { code: { $regex: re1} },
+                      { locName: { $regex: re2} }
+                    ]}
+                , { locType: locType }
+                , { locCategoryId: locCategory }
+              ]
+            };
+    } else {
+      query ={ 
+        $and: [
+                { $or: [
+                      { code: { $regex: re1, $options: 'i' } },
+                      { locName: { $regex: re2, $options: 'i' } }
+                    ]}
+                , { locType: locType }
+              ]
+            };
+    }
+
+    return from(
+      this.db.collection('locations').find(query,  {$orderby: {locCategoryId: 10}},  { limit: 100 }).asArray()
     .then(data => {
-      console.log("getLocationByLocationID: " + data)
+      console.log("getLocationsBySearchString: " + data)
       let locations = [];
       data.forEach(elem => {
-          let ap = new Location();
-          ap._id = elem._id;
-          ap.locName = elem.locName;
-          ap.code = elem.code;
-          ap.elevation = elem.elevation;
-          ap.latitude = elem.latitude
-          ap.longitude = elem.longitude
-          ap.locCountryCode = elem.locCountryCode
-          locations.push(ap);
+          let loc = this.createXpLocation(elem);
+          locations.push(loc);
       });
       return locations;
     }).catch(err => {
@@ -129,7 +149,26 @@ export class MongoDataService implements iLocationService {
     }));
   }
 
-  getLocationByLocationID(locId: number, locType: number): Observable<Location[]> {
+  getLocationsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number, locCategory?: number): Observable<XpLocation[]> {
+
+    let query = this.getQueryForGeoFenceRange(sthWestPos, northEastPos, locType, locCategory);
+    return from(
+      this.db.collection('locations').find(query, {$orderby: {locCategoryId: 10}}).asArray()
+    .then(data => {
+      console.log("getLocationByLocationID: " + data)
+      let locations = [];
+      data.forEach(elem => {
+        let loc = this.createXpLocation(elem);
+        locations.push(loc);
+      });
+      return locations;
+    }).catch(err => {
+      console.error(err);
+      return [];
+    }));
+  }
+
+  getLocationByLocationID(locId: number, locType: number): Observable<XpLocation[]> {
     return from(
       this.db.collection('locations').find({
         $and: [{locId: locId}, {locType: locType}]
@@ -138,15 +177,8 @@ export class MongoDataService implements iLocationService {
       console.log("getLocationByLocationID: " + data)
       let locations = [];
       data.forEach(elem => {
-          let ap = new Location();
-          ap._id = elem._id;
-          ap.locName = elem.locName;
-          ap.code = elem.code;
-          ap.elevation = elem.elevation;
-          ap.latitude = elem.latitude
-          ap.longitude = elem.longitude
-          ap.locCountryCode = elem.locCountryCode
-          locations.push(ap);
+        let loc = this.createXpLocation(elem);
+        locations.push(loc);
       });
       return locations;
     }).catch(err => {
@@ -155,7 +187,7 @@ export class MongoDataService implements iLocationService {
     }));
   }
 
-  getLocationByCode(code: string, locType: number): Observable<Location[]> {
+  getLocationByCode(code: string, locType: number): Observable<XpLocation[]> {
     return from(
       this.db.collection('locations').find({
         $and: [{code: code}, {locType: locType}]
@@ -164,15 +196,8 @@ export class MongoDataService implements iLocationService {
       console.log("getLocationByCode: " + data)
       let locations = [];
       data.forEach(elem => {
-          let ap = new Location();
-          ap._id = elem._id;
-          ap.locName = elem.locName;
-          ap.code = elem.code;
-          ap.elevation = elem.elevation;
-          ap.latitude = elem.latitude
-          ap.longitude = elem.longitude
-          ap.locCountryCode = elem.locCountryCode
-          locations.push(ap);
+        let loc = this.createXpLocation(elem);
+        locations.push(loc);
       });
       return locations;
     }).catch(err => {
@@ -181,39 +206,29 @@ export class MongoDataService implements iLocationService {
     }));
   }
 
-  getLocationById(objectId: string): Observable<Location> {
+  getLocationById(objectId: string): Observable<XpLocation> {
     return from(
       this.db.collection('locations').find({
         _id: objectId
       }).asArray()
     .then(elem => {
       console.log("getLocationById: " + elem)
-      let ap = new Location();
+      let loc = null
       if (elem.length > 0) {
-        ap._id = elem[0]._id;
-        ap.locName = elem[0].locName;
-        ap.code = elem[0].code;
-        ap.elevation = elem[0].elevation;
-        ap.latitude = elem[0].latitude
-        ap.longitude = elem[0].longitude
-        ap.locCountryCode = elem[0].locCountryCode
+          loc = this.createXpLocation(elem[0])
       }     
-      return ap;
+      return loc;
     }).catch(err => {
       console.error(err);
       return [];
     }));
   }
   
-  getLocationCount(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<number> {
+  getLocationCount(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number, locCategory?: number): Observable<number> {
+
+    let query = this.getQueryForGeoFenceRange(sthWestPos, northEastPos, locType, locCategory);
     return from(
-      this.db.collection('locations').count({
-        $and: [ { latitude: {$gte: sthWestPos.lat}},
-                {longitude: {$gte: sthWestPos.lng}},
-                {latitude: {$lte: northEastPos.lat}},
-                {longitude: {$lte: northEastPos.lng}},
-                {locType: locType}
-            ]}).asArray()
+      this.db.collection('locations').count(query)
     .then(cnt => {
       console.log("Count returned", cnt)
       return cnt;
