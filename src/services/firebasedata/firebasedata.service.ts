@@ -22,9 +22,9 @@ export class FirebaseDataService implements iLocationService {
 
     private createXpLocation(elem: any): XpLocation {
         let loc = new XpLocation();
-        loc._id = elem._id;
         loc._id = elem.id;
-        loc.locId = elem.get('locId');
+        loc.locId = elem.id;
+        //loc.locId = elem.get('locId');
         loc.locName = elem.get('locName');
         loc.code = elem.get('code');
         loc.latitude = elem.get('latitude');
@@ -33,7 +33,7 @@ export class FirebaseDataService implements iLocationService {
         loc.elevation = elem.get('elevation');
         loc.locCountryCode = elem.get('apCountry');
         loc.locCategoryId = elem.get('apCategoryId');
-        loc.apCountry = this.countries.findCountry(elem.locCountryCode);
+        loc.apCountry = this.countries.findCountry(loc.locCountryCode);
         return loc;
     }
 
@@ -69,6 +69,7 @@ export class FirebaseDataService implements iLocationService {
             return locations;
         }));
     }
+
     getLocationByLocationID(locId: number, locType: number): Observable<XpLocation[]> {
         if (locId == null)
             return null;
@@ -84,6 +85,7 @@ export class FirebaseDataService implements iLocationService {
             return locations;
         }));
     }
+
     getLocationByCode(code: string, locType: number): Observable<XpLocation[]> {
         throw new Error("Method not implemented.");
     }
@@ -91,39 +93,16 @@ export class FirebaseDataService implements iLocationService {
 
     getLocationById(objectId: string): Observable<XpLocation> {
         //let qry = this._db.collection("Airports").ref.where("_id", "==", objectId);
-        let qry = this._db.collection("Airports/"+objectId).ref;
+        let qry = this._db.collection("Airports").doc(objectId).ref;
         return from(qry.get().then(elem => {
 
             let ap = new XpLocation();
-            if (elem.size > 0) {
-                ap._id = elem[0]._id;
-                ap.locName = elem[0].locName;
-                ap.code = elem[0].code;
-                ap.elevation = elem[0].elevation;
-                ap.latitude = elem[0].latitude
-                ap.longitude = elem[0].longitude
-                ap.locCountryCode = elem[0].locCountryCode
+            if (elem) {
+                ap = this.createXpLocation(elem);
             }
             return ap;
         })
         )
-        // .then(elem => {
-        //   console.log("getLocationById: " + elem)
-        //   let ap = new XpLocation();
-        //   if (elem.length > 0) {
-        //     ap._id = elem[0]._id;
-        //     ap.locName = elem[0].locName;
-        //     ap.code = elem[0].code;
-        //     ap.elevation = elem[0].elevation;
-        //     ap.latitude = elem[0].latitude
-        //     ap.longitude = elem[0].longitude
-        //     ap.locCountryCode = elem[0].locCountryCode
-        //   }     
-        //   return ap;
-        // }).catch(err => {
-        //   console.error(err);
-        //   return [];
-        // }));
     }
 
 

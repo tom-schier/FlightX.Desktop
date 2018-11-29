@@ -203,8 +203,6 @@ export class TrackService {
         var wca: number;
         var tmp: number;
         var windDir: number;
-        //windDir = parseInt(windComponent.direction);
-
 
         if (windComponent.direction > aTrack.trackTrue || windComponent.direction < (aTrack.trackTrue - 180)) {
             tmp = (aTrack.trackTrue + 180) - windComponent.direction;

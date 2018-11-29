@@ -1,12 +1,6 @@
 
-
-
 import { Component, OnInit, Input, ViewChild, Inject, AfterViewInit } from '@angular/core';
-//  import { Injectable } from '@angular/core';
-//  import {TrackModel} from '../common/track'
 import { TrackService } from '../../services/track/track.service';
-//  import { Observable }     from 'rxjs/Observable';
-//  import { Subject }    from 'rxjs/Subject';
 import { XpLocation } from '../models/airport.model';
 import { XpAirfieldCategory, XpLocationType, XpAirfieldTypes } from '../models/globals.model'
 import { CountryList } from '../../data/mapping/countries';
@@ -82,8 +76,8 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     console.log('After Init MapContainer');
-   this.initMap();
-   this.UpdateMap();
+    this.initMap();
+    this.UpdateMap();
   }
 
   ngOnInit() {
@@ -177,42 +171,42 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
   //     console.log("Found airfields");      
   // }
 
-  getInfoWindoContent(ap: any): string{
+  getInfoWindoContent(ap: any): string {
     var st = "";
     let country = this.countries.findCountry(ap.locCountryCode);
-      if (ap.elevation != null) {
-        st = '"<div id="content">'+
-        '<div id="siteNotice">'+
-        '</div>'+
+    if (ap.elevation != null) {
+      st = '"<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
         '<p><b>' + ap.locName + ' </b> ' +
         '<img src="/assets/countries/' + country + '.png" class="flag" />' +
-        '<div id="bodyContent">'+
+        '<div id="bodyContent">' +
         '<p><b>Latitude: </b>' + ap.latitude +
         '<br><b>Longitude: </b>' + ap.longitude +
-        '<br><b>Elevation: </b>' + ap.elevation +     
-        '</div>'+
+        '<br><b>Elevation: </b>' + ap.elevation +
+        '</div>' +
         '</div>'
-      }
-      else {
-        st = '"<div id="content">'+
-        '<div id="siteNotice">'+
-        '</div>'+
-        '<h3 id="firstHeading" class="firstHeading">' + ap.locName + '</h3>'+
-        '<div id="bodyContent">'+
+    }
+    else {
+      st = '"<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">' + ap.locName + '</h3>' +
+        '<div id="bodyContent">' +
         '<p><b>Latitude: </b>' + ap.latitude +
         '<p><b>Longitude: </b>' + ap.longitude +
-        '</div>'+
+        '</div>' +
         '</div>'
-      }
-      //return ap.code + " : " + ap.locName;
-      return st;
+    }
+    //return ap.code + " : " + ap.locName;
+    return st;
   }
 
-  addLocationToMap(ap: any) : google.maps.Marker {
+  addLocationToMap(ap: any): google.maps.Marker {
     if (ap == null)
       return;
-  let contentString = this.getInfoWindoContent(ap);
-  var markerTypeBase = "/assets/images/";
+    let contentString = this.getInfoWindoContent(ap);
+    var markerTypeBase = "/assets/images/";
     let infowindow = new google.maps.InfoWindow({
       content: contentString
     });
@@ -285,7 +279,7 @@ export class MapcontainerComponent implements OnInit, AfterViewInit {
       let aa = apData[i];
       let marker = this.addLocationToMap(apData[i]);
       google.maps.event.addListener(marker, 'click', () => {
-         this._trackService.AddLocation(aa, "AO50");
+        this._trackService.AddLocation(aa, "AO50");
       });
 
     }

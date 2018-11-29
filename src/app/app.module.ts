@@ -37,6 +37,7 @@ import { TestFirebaseComponent } from './test-firebase/test-firebase.component';
 import { MongoDataService } from 'src/services/mongodata/mongo-data.service';
 import { EmailSigninComponent } from './email-signin/email-signin.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { FirebaseDataService } from 'src/services/firebasedata/firebasedata.service';
 
 
 @NgModule({
