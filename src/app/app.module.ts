@@ -38,6 +38,7 @@ import { MongoDataService } from 'src/services/mongodata/mongo-data.service';
 import { EmailSigninComponent } from './email-signin/email-signin.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FirebaseDataService } from 'src/services/firebasedata/firebasedata.service';
+import { HttpModule } from '@angular/http';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { FirebaseDataService } from 'src/services/firebasedata/firebasedata.serv
     NguiAutoCompleteModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
+    HttpModule,
     FormsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: false }),
     AngularFireModule.initializeApp(environment.firebase),

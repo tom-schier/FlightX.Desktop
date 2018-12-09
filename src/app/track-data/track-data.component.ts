@@ -179,13 +179,13 @@ export class TrackDataComponent implements OnInit{
         console.log("in onSelectLocation...")
         this.showList = false;        
         this.hideNoResultsMsg = true;
-        if (event instanceof XpLocation) {
+        //if (event instanceof XpLocation) {
             this.isSelected = true;
             this.selected = event
-        }
-        else {
-            this.isSelected = false;
-        }
+        //}
+        // else {
+        //     this.isSelected = false;
+        // }
         
     }
 
