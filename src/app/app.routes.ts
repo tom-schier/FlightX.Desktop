@@ -13,6 +13,7 @@ import { MapcontainerComponent } from './mapcontainer/mapcontainer.component';
 import { AircraftDetailsComponent } from './aircraft/aircraft-detail.component';
 import { FlightPlanComponent } from './flight-plan/flight-plan.component';
 import { EmailSigninComponent } from './email-signin/email-signin.component';
+import { TestFirebaseComponent } from './test-firebase/test-firebase.component';
 
 export const rootRouterConfig: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'prefix' },
@@ -24,7 +25,8 @@ export const rootRouterConfig: Routes = [
             { path: 'aircraft', component: AircraftDetailsComponent,  },
             { path: 'flightpath', component: FlightpathComponent,  },
             { path: 'flightplan', component: FlightPlanComponent,  },
-            { path: 'weather', component: WeatherComponent,  }]
+            { path: 'weather', component: WeatherComponent,  },
+            { path: 'test', component: TestFirebaseComponent,  }]
     }
     // { path: 'user', component: UserComponent,  resolve: { data: UserResolver}}
 ];

@@ -17,7 +17,7 @@ import { map, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class MongoDataService implements iLocationService{
+export class MongoDataService implements iLocationService {
 
   private locServiceUrl: string;
   options: RequestOptions;
@@ -38,13 +38,52 @@ export class MongoDataService implements iLocationService{
     this.options = new RequestOptions({ headers: this.headers });
   }
 
+  private getQueryForGeoFenceRange(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number, locCategory?: number): any {
+    let query = {};
+    if (locCategory) {
+      query = {
+        $and: [{ latitude: { $gte: sthWestPos.lat } },
+        { longitude: { $gte: sthWestPos.lng } },
+        { latitude: { $lte: northEastPos.lat } },
+        { longitude: { $lte: northEastPos.lng } },
+        { locType: locType },
+        { locCategoryId: locCategory }
+        ]
+      };
+    } else {
+      query = {
+        $and: [{ latitude: { $gte: sthWestPos.lat } },
+        { longitude: { $gte: sthWestPos.lng } },
+        { latitude: { $lte: northEastPos.lat } },
+        { longitude: { $lte: northEastPos.lng } },
+        { locType: locType }
+        ]
+      };
+    }
+    return query;
+  }
+
   private extractLocationData(res: Response) {
     let body = res.json();
     return body;
   }
 
   getLocationsNearBy(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number): Observable<XpLocation[]> {
-    throw new Error("Method not implemented.");
+    let params: string = [
+      `latUpper=${northEastPos.lat.toString()}`,
+      `latLower=${sthWestPos.lat.toString()}`,
+      `lngUpper=${northEastPos.lng.toString()}`,
+      `lngLower=${sthWestPos.lng.toString()}`
+
+    ].join('&');
+    var outSt = '';
+    this.BuildHeader();
+    var outSt = this.locServiceUrl + "region/" + `${locType}` + "/" + `?${params}`;
+
+    return this._http.get(outSt, this.options).pipe(
+      map((res) => this.extractLocationData(res)),
+      catchError(err => of(null))
+    )
   }
 
   getLocationById(objectId: any): Observable<XpLocation> {
@@ -308,7 +347,7 @@ export class MongoDataService implements iLocationService{
   //     return [];
   //   }));
   // }
-  
+
   // getLocationCount(sthWestPos: xpLatLng, northEastPos: xpLatLng, locType: number, locCategory?: number): Observable<number> {
 
   //   let query = this.getQueryForGeoFenceRange(sthWestPos, northEastPos, locType, locCategory);
