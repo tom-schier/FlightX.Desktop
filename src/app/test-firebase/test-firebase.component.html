@@ -2,3 +2,11 @@
   test-firebase works!
 </p>
 <button (click)="getFieldsNearBy()">Get Fields Neearby</button>
+<button (click)="getCount()">Get Count</button> {{apCount}}
+<ul>
+  <li *ngFor="let ap of airports; let i=index" (click)="onSelect(i)">
+    <div>
+        {{ap.locName}} {{ap.code}}
+    </div>            
+</li>
+</ul>
