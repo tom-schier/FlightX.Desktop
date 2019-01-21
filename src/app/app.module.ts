@@ -79,7 +79,7 @@ import { HttpModule } from '@angular/http';
     AngularFirestoreModule,   // imports firebase/firestore, only needed for database features
     AngularFireAuthModule,    // imports firebase/auth, only needed for auth features
   ],
-  providers: [AuthService, UserService, UserResolver, AuthGuard, AuthService, UserService, UserResolver, AuthGuard,
+  providers: [AuthService, UserService, UserResolver, UserResolver, AuthGuard,
     {provide: 'iLocationService', useClass: MongoDataService},
   ],
   bootstrap: [AppComponent]

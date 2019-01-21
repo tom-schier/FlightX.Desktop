@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   public loginInProgress: boolean;
   public monkey: number;
 
-  LoginTextWhenLoggedOut = 'Register with email';
+  LoginTextWhenLoggedOut = 'Login with email';
   LoginTextWhenLoggedIn = 'Try Login';
 
 
